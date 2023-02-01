@@ -21,6 +21,7 @@ import { type Session } from "next-auth";
 
 import { getServerAuthSession } from "../auth";
 import { prisma } from "../db";
+import { stripe } from '../stripe/client'
 
 type CreateContextOptions = {
   session: Session | null;
@@ -39,6 +40,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     prisma,
+    stripe
   };
 };
 
@@ -53,9 +55,13 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   // Get the session from the server using the unstable_getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
-  return createInnerTRPCContext({
-    session,
-  });
+    return {
+    ...createInnerTRPCContext({
+      session,
+    }),
+    req,
+    res,
+  };
 };
 
 /**

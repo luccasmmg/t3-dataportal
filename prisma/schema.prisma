@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "mysql"
     // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -55,7 +55,20 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    stripeCustomerId         String? // link to Stripe customer object in Stripe's system
+    stripeSubscriptionId     String? // link to Stripe subscription object for user in Stripe's system
+    stripeSubscriptionStatus StripeSubscriptionStatus? // status of user's subscription to determine access to services
 }
+
+enum StripeSubscriptionStatus {
+    incomplete
+    incomplete_expired
+    trialing
+    active
+    past_due
+    canceled
+    unpaid
+  }
 
 model VerificationToken {
     identifier String
@@ -64,3 +77,16 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model StripeEvent {
+  id String @id @unique
+  api_version      String?
+  data             Json
+  request          Json?
+  type             String
+  object           String
+  account          String?
+  created          DateTime
+  livemode         Boolean
+  pending_webhooks Int
+  }
