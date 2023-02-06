@@ -14,12 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -58,6 +52,7 @@ model User {
     stripeCustomerId         String? // link to Stripe customer object in Stripe's system
     stripeSubscriptionId     String? // link to Stripe subscription object for user in Stripe's system
     stripeSubscriptionStatus StripeSubscriptionStatus? // status of user's subscription to determine access to services
+    portals Portal[]
 }
 
 enum StripeSubscriptionStatus {
@@ -74,7 +69,6 @@ model VerificationToken {
     identifier String
     token      String   @unique
     expires    DateTime
-
     @@unique([identifier, token])
 }
 
@@ -89,4 +83,15 @@ model StripeEvent {
   created          DateTime
   livemode         Boolean
   pending_webhooks Int
-  }
+}
+
+//Probably most configuration options will be here
+model Portal {
+  id            String    @id @default(cuid())
+  name String @unique
+  title String
+  sysAdminId String 
+  SysAdmin User @relation(fields: [sysAdminId], references: [id])
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
