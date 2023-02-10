@@ -6,6 +6,8 @@ export const PortalSchema = z.object({
       "The name cant have spaces nor the dot(.) character, it needs to be URL Compatible"
     ),
   title: z.string(),
+  private: z.boolean().default(false),
+  message: z.string(),
   sysAdminId: z.string(), 
 })
 

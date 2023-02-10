@@ -15,7 +15,7 @@ export const CreatePortalForm: React.FC = () => {
   return (
     <div className='rounded-xl border border-lime-600 p-4'>
       <div className='flex items-start'>
-        <h3 className='block text-xl font-semibold text-lime-600'>Submissões</h3>
+        <h3 className='block text-xl font-semibold text-lime-600'>Portal Form</h3>
       </div>
       <form onSubmit={formObj.handleSubmit((data) => createPortal.mutate(data))}>
         <PortalForm formObj={formObj} />

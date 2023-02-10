@@ -90,6 +90,8 @@ model Portal {
   id            String    @id @default(cuid())
   name String @unique
   title String
+  private Boolean @default(false)
+  message String?
   sysAdminId String 
   SysAdmin User @relation(fields: [sysAdminId], references: [id])
   createdAt        DateTime          @default(now())
