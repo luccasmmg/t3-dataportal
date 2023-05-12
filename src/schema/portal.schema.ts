@@ -7,7 +7,7 @@ export const PortalSchema = z.object({
     ),
   title: z.string(),
   private: z.boolean().default(false),
-  message: z.string(),
+  description: z.string().nullable(),
   sysAdminId: z.string(), 
 })
 

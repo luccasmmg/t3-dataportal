@@ -72,15 +72,15 @@ export const PortalForm: React.FC<{
           htmlFor='message'
           className='block text-sm font-medium text-gray-700'
         >
-          Message
+          Description
         </label>
         <div className='mt-1'>
           <textarea
-            id='message'
+            id='description'
             rows={4}
             className={inputStyle}
             defaultValue={''}
-            {...register('message')}
+            {...register('description')}
           />
         </div>
       </div>

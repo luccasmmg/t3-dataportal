@@ -4,6 +4,8 @@ import Head from "next/head";
 import { api } from '../utils/api'
 import { useRouter } from "next/router";
 import { getServerAuthSession } from "../server/auth";
+import { Button } from '../components/shared/Button'
+import Link from 'next/link'
 
 const SignoutButton = () => {
   return (
@@ -18,7 +20,7 @@ const SignoutButton = () => {
   );
 };
 
-const UpgradeButton = () => {
+export const UpgradeButton = () => {
   const { mutateAsync: createCheckoutSession } =
     api.stripe.createCheckoutSession.useMutation();
   const { push } = useRouter();
@@ -37,7 +39,7 @@ const UpgradeButton = () => {
   );
 };
 
-const ManageBillingButton = () => {
+export const ManageBillingButton = () => {
   const { mutateAsync: createBillingPortalSession } =
     api.stripe.createBillingPortalSession.useMutation();
   const { push } = useRouter();
@@ -80,6 +82,11 @@ const Dashboard: NextPage = () => {
                 Your subscription is {subscriptionStatus}.
               </p>
               <ManageBillingButton />
+              <Link href='/newportal'>
+                <Button type='button' color='lime' className='mt-8 py-4'>
+                  Create portal
+                </Button>
+              </Link>
             </>
           )}
           {!isLoading && subscriptionStatus === null && (
