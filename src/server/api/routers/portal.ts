@@ -5,7 +5,18 @@ import { PortalSchema } from "../../../schema/portal.schema";
 import { protectedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 
 export const portalRouter = createTRPCRouter({
-  getPortal: publicProcedure
+  getPortalBySysAdminId: publicProcedure
+    .input(z.object({ sysAdminId: z.string().optional() }))
+    .query(async ({ ctx, input }) => {
+      const portal = await ctx.prisma.portal.findFirst({
+        where: { sysAdminId: input.sysAdminId },
+      });
+      if (!portal) {
+        return null
+      }
+      return { ...portal };
+    }),
+  getPortalByName: publicProcedure
     .meta({ openapi: { method: "GET", path: "/portal" } })
     .input(z.object({ name: z.string() }))
     .output(PortalSchema)
@@ -13,7 +24,6 @@ export const portalRouter = createTRPCRouter({
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.name },
       });
-      console.log(portal);
       if (!portal) {
         throw new TRPCError({
           message: "Portal not found",

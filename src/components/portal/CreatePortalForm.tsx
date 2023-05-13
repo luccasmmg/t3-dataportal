@@ -4,13 +4,17 @@ import { PortalInputs, PortalSchema } from '../../schema/portal.schema'
 import { api } from '../../utils/api'
 import { PortalForm } from './PortalForm'
 import { Button } from '../shared/Button'
+import { useRouter } from 'next/router'
 
 export const CreatePortalForm: React.FC = () => {
+  const { push } = useRouter();
   const formObj = useForm<PortalInputs>({
     resolver: zodResolver(PortalSchema),
   })
 
-  const createPortal = api.portal.createPortal.useMutation()
+  const createPortal = api.portal.createPortal.useMutation({
+    onSuccess: () => push('/dashboard')
+  })
 
   return (
     <div className='rounded-xl border border-lime-600 p-4'>

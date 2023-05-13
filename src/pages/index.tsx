@@ -5,7 +5,6 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 
 import { api } from '../utils/api'
 import { Button } from '../components/shared/Button'
-import { ManageBillingButton, UpgradeButton } from './dashboard'
 
 const Home: NextPage = () => {
   const { data: subscriptionStatus, isLoading } =
@@ -23,20 +22,6 @@ const Home: NextPage = () => {
           <h1 className='text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]'>
             Create <span className='text-[hsl(280,100%,70%)]'>T3</span> App
           </h1>
-          {!isLoading && subscriptionStatus === null && (
-            <>
-              <p className="text-xl text-white">You are not subscribed!!!</p>
-              <UpgradeButton />
-            </>
-          )}
-          {!isLoading && subscriptionStatus !== null && (
-            <>
-              <p className="text-xl text-white">
-                Your subscription is {subscriptionStatus}.
-              </p>
-              <ManageBillingButton />
-            </>
-          )}
           {!isLoading &&
             subscriptionStatus &&
             subscriptionStatus === 'active' && (
