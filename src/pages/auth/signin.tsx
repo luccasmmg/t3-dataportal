@@ -42,6 +42,7 @@ const SignInPage: NextPage<{
                   {providers ? (
                     Object.values(providers).map((provider) => (
                       <button
+                        key={provider.id}
                         onClick={() =>
                           signIn(provider.id, { callbackUrl: '/' })
                         }

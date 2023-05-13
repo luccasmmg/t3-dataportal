@@ -11,8 +11,8 @@ const SignoutButton = () => {
   return (
     <button
       className="w-fit cursor-pointer rounded-md bg-red-500 px-5 py-2 text-lg font-semibold text-white shadow-sm duration-150 hover:bg-red-600"
-      onClick={() => {
-        signOut({ callbackUrl: "/" });
+      onClick={async () => {
+        await signOut({ callbackUrl: "/" });
       }}
     >
       Sign out
@@ -30,7 +30,7 @@ export const UpgradeButton = () => {
       onClick={async () => {
         const { checkoutUrl } = await createCheckoutSession();
         if (checkoutUrl) {
-          push(checkoutUrl);
+          await push(checkoutUrl);
         }
       }}
     >
@@ -49,7 +49,7 @@ export const ManageBillingButton = () => {
       onClick={async () => {
         const { billingPortalUrl } = await createBillingPortalSession();
         if (billingPortalUrl) {
-          push(billingPortalUrl);
+          await push(billingPortalUrl);
         }
       }}
     >

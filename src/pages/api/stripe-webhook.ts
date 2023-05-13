@@ -100,7 +100,10 @@ export default async function handler(
 
       res.json({ received: true });
     } catch (err) {
-      res.status(400).send(`Webhook Error: ${(err as any).message}`);
+      let message
+      if (err instanceof Error) message = err.message
+      else message = String(err)
+      res.status(400).send(`Webhook Error: ${message}`);
       return;
     }
   } else {
