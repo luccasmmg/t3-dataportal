@@ -1,38 +1,20 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { signOut, useSession } from "next-auth/react";
-import Head from "next/head";
 import { api } from "@utils/api";
 import { useRouter } from "next/router";
 import { getServerAuthSession } from "@server/auth";
-import { Button } from "@components/shared/Button";
-import Link from "next/link";
 
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
   HomeIcon,
-  UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Loading from "@components/shared/Loading";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
-];
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -43,17 +25,17 @@ const Dashboard: NextPage = () => {
   const { push } = useRouter();
   const { data: sessionData } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data: subscriptionStatus, isLoading: subscriptionLoading } = api.user.subscriptionStatus.useQuery();
+  const { data: subscriptionStatus, isLoading: subscriptionLoading } =
+    api.user.subscriptionStatus.useQuery();
   const { data: portalData, isLoading: portalLoading } =
     api.portal.getPortalBySysAdminId.useQuery(
       { sysAdminId: sessionData?.user.id },
       { enabled: !!sessionData?.user?.id }
     );
-  if (portalLoading || subscriptionLoading) return <Loading />
+  if (portalLoading || subscriptionLoading || !sessionData) return <Loading />;
   if (subscriptionStatus === null) void push("/pricing");
   if (portalData === null && subscriptionStatus !== null)
     void push("/newportal");
-
 
   return (
     <>
@@ -157,31 +139,6 @@ const Dashboard: NextPage = () => {
                             ))}
                           </ul>
                         </li>
-                        <li>
-                          <div className="text-xs font-semibold leading-6 text-lime-200">
-                            Your teams
-                          </div>
-                          <ul role="list" className="-mx-2 mt-2 space-y-1">
-                            {teams.map((team) => (
-                              <li key={team.name}>
-                                <a
-                                  href={team.href}
-                                  className={classNames(
-                                    team.current
-                                      ? "bg-lime-700 text-white"
-                                      : "text-lime-200 hover:bg-lime-700 hover:text-white",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                                  )}
-                                >
-                                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-lime-400 bg-lime-500 text-[0.625rem] font-medium text-white">
-                                    {team.initial}
-                                  </span>
-                                  <span className="truncate">{team.name}</span>
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </li>
                       </ul>
                     </nav>
                   </div>
@@ -232,44 +189,24 @@ const Dashboard: NextPage = () => {
                     ))}
                   </ul>
                 </li>
-                <li>
-                  <div className="text-xs font-semibold leading-6 text-lime-200">
-                    Your teams
-                  </div>
-                  <ul role="list" className="-mx-2 mt-2 space-y-1">
-                    {teams.map((team) => (
-                      <li key={team.name}>
-                        <a
-                          href={team.href}
-                          className={classNames(
-                            team.current
-                              ? "bg-lime-700 text-white"
-                              : "text-lime-200 hover:bg-lime-700 hover:text-white",
-                            "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                          )}
-                        >
-                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-lime-400 bg-lime-500 text-[0.625rem] font-medium text-white">
-                            {team.initial}
-                          </span>
-                          <span className="truncate">{team.name}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
                 <li className="-mx-6 mt-auto">
                   <a
                     href="#"
                     className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-lime-700"
                   >
-                    <img
-                      className="h-8 w-8 rounded-full bg-lime-700"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
+                    {sessionData.user.image && (
+                      <img
+                        className="h-8 w-8 rounded-full bg-lime-700"
+                        src={sessionData.user.image}
+                        alt=""
+                      />
+                    )}
                     <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Tom Cook</span>
+                    <span aria-hidden="true">{sessionData.user.name}</span>
                   </a>
+                  <button 
+                    className="flex items-center gap-x-4 px-6 pb-3 text-sm font-semibold leading-6 text-white"
+                    onClick={() => signOut()}>Sign out</button>
                 </li>
               </ul>
             </nav>
@@ -290,11 +227,13 @@ const Dashboard: NextPage = () => {
           </div>
           <a href="#">
             <span className="sr-only">Your profile</span>
-            <img
-              className="h-8 w-8 rounded-full bg-lime-700"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
+            {sessionData.user.image && (
+              <img
+                className="h-8 w-8 rounded-full bg-lime-700"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+            )}
           </a>
         </div>
 
