@@ -1,5 +1,5 @@
 export const inputStyle =
-  "rounded-lg border-transparent flex-1 appearance-none border border-gray-400 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-transparent";
+  "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-lime-600 sm:text-sm sm:leading-6";
 export const checkBoxStyle =
   "h-4 w-4 rounded border-gray-300 text-lime-600 focus:ring-lime-600";
 export const selectStyle =

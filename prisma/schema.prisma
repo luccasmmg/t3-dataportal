@@ -98,4 +98,17 @@ model Portal {
   SysAdmin User @relation(fields: [sysAdminId], references: [id])
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
+  organizations Organization[]
+}
+
+model Organization {
+  id String @id @default(cuid())
+  slug String @unique
+  title String
+  description String
+  image String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  portalId String 
+  Portal Portal @relation(fields: [portalId], references: [id])
 }

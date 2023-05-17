@@ -1,16 +1,12 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { api } from "@utils/api";
-import { useRouter } from "next/router";
 import { getServerAuthSession } from "@server/auth";
 
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Loading from "@components/shared/Loading";
 import { Dashboard } from "@components/shared/dashboard/Dashboard";
 
-const InitialDashboard: NextPage = () => {
+const GroupsDashboard: NextPage = () => {
   const { data: sessionData } = useSession();
   const { data: portalData, isLoading: portalLoading } =
     api.portal.getPortalBySysAdminId.useQuery(
@@ -19,13 +15,12 @@ const InitialDashboard: NextPage = () => {
     );
   if (!portalData) return <Loading />;
   return (
-    <Dashboard current="initial">
-      <div className="px-4 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-          {portalData.title}
-        </h1>
-        <p className="mt-2 text-sm text-gray-500">{portalData.description}</p>
-      </div>
+    <Dashboard current="groups">
+        <div className="px-4 sm:px-6 lg:px-8">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+              Groups
+            </h1>
+        </div>
     </Dashboard>
   );
 };
@@ -49,4 +44,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default InitialDashboard;
+export default GroupsDashboard;

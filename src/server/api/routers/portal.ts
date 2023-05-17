@@ -17,7 +17,7 @@ export const portalRouter = createTRPCRouter({
       return { ...portal };
     }),
   getPortalByName: publicProcedure
-    .meta({ openapi: { method: "GET", path: "/portal" } })
+    .meta({ openapi: { method: "GET", path: "/portal/{name}" } })
     .input(z.object({ name: z.string() }))
     .output(PortalSchema)
     .query(async ({ ctx, input }) => {

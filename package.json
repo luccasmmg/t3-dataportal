@@ -9,6 +9,7 @@
     "start": "next start",
     "postinstall": "prisma generate",
     "prisma:push": "npx prisma db push",
+    "find-deadcode": "ts-prune",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe-webhook --latest"
   },
   "dependencies": {
@@ -55,6 +56,7 @@
     "prettier-plugin-tailwindcss": "^0.2.8",
     "prisma": "^4.14.0",
     "tailwindcss": "^3.3.2",
+    "ts-prune": "^0.10.3",
     "typescript": "^5.0.4"
   },
   "ct3aMetadata": {
