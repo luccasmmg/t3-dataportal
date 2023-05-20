@@ -60,7 +60,7 @@ const OrgsDashboard: NextPage = () => {
           <div className="sm:flex-auto">
             <p className="mt-2 text-sm text-gray-700">
               A list of all the organizations in your portal including their
-              slug, title, description and image.
+              name, title, description and image.
             </p>
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -112,7 +112,7 @@ const OrgsDashboard: NextPage = () => {
                           scope="col"
                           className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
                         >
-                          Slug
+                          Name
                         </th>
                         <th
                           scope="col"
