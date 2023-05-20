@@ -3,13 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import { api } from "../utils/api";
-import { Button } from "../components/shared/Button";
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { LoginDropdown } from "@components/shared/NavBar";
-import { LoginMobile } from "@components/shared/NavBar";
 import Layout from "@components/shared/Layout";
 
 const Home: NextPage = () => {
@@ -43,7 +36,7 @@ const Home: NextPage = () => {
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
                   Do not use this website, this is only intended for me to train
-                  full-stack development with NextJS, stuff will break and i'm
+                  full-stack development with NextJS, stuff will break and i&apos;m
                   not responsible for it
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -53,12 +46,12 @@ const Home: NextPage = () => {
                   >
                     Get started
                   </button>
-                  <a
+                  <Link
                     href="/docs"
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     Learn more <span aria-hidden="true">→</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
