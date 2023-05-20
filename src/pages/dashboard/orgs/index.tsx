@@ -9,49 +9,6 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { classNames } from "@utils/classnames";
 import Link from "next/link";
 
-const orgs = [
-  {
-    slug: "my-organization",
-    title: "My Organization",
-    description: "The description that is describing the stuff inside the organization that is being described by this description",
-    updatedAt: new Date(),
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    slug: "my-organization",
-    title: "My Organization",
-    description: "The description that is describing the stuff inside the organization that is being described by this description",
-    updatedAt: new Date(),
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    slug: "my-organization",
-    title: "My Organization",
-    description: "The description that is describing the stuff inside the organization that is being described by this description",
-    updatedAt: new Date(),
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    slug: "my-organization",
-    title: "My Organization",
-    description: "The description that is describing the stuff inside the organization that is being described by this description",
-    updatedAt: new Date(),
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    slug: "my-organization",
-    title: "My Organization",
-    description: "The description that is describing the stuff inside the organization that is being described by this description",
-    updatedAt: new Date(),
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
-
 const OrgsDashboard: NextPage = () => {
   const { data: sessionData } = useSession();
   const { data: portalData, isLoading: portalLoading } =
@@ -62,28 +19,37 @@ const OrgsDashboard: NextPage = () => {
   const checkbox = useRef<HTMLInputElement>(null);
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
-  const [selectedOrgs, setSelectedOrgs] = useState<{
-    slug: string;
-    title: string;
-    description: string;
-    updatedAt: Date;
-    image: string;
-  }[]>([]);
+  const [selectedOrgs, setSelectedOrgs] = useState<
+    {
+      name: string;
+      title: string;
+      description: string | null;
+      updatedAt: Date;
+      createdAt: Date;
+      image: string | null;
+    }[]
+  >([]);
 
   useLayoutEffect(() => {
-    const isIndeterminate =
-      selectedOrgs.length > 0 && selectedOrgs.length < orgs.length;
-    setChecked(selectedOrgs.length === orgs.length);
-    setIndeterminate(isIndeterminate);
-    if (checkbox.current) checkbox.current.indeterminate = isIndeterminate;
+    if (portalData) {
+      const isIndeterminate =
+        selectedOrgs.length > 0 &&
+        selectedOrgs.length < portalData.organizations.length;
+      setChecked(selectedOrgs.length === portalData.organizations.length);
+      setIndeterminate(isIndeterminate);
+      if (checkbox.current) checkbox.current.indeterminate = isIndeterminate;
+    }
   }, [selectedOrgs]);
 
-  function toggleAll() {
-    setSelectedOrgs(checked || indeterminate ? [] : orgs);
-    setChecked(!checked && !indeterminate);
-    setIndeterminate(false);
-  }
   if (!portalData) return <Loading />;
+
+  function toggleAll() {
+    if (portalData) {
+      setSelectedOrgs(checked || indeterminate ? [] : portalData.organizations);
+      setChecked(!checked && !indeterminate);
+      setIndeterminate(false);
+    }
+  }
   return (
     <Dashboard current="orgs">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -98,12 +64,12 @@ const OrgsDashboard: NextPage = () => {
             </p>
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button
-              type="button"
+            <Link
+              href="/dashboard/orgs/createorganization"
               className="block rounded-md bg-lime-600 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600"
             >
               Add organization
-            </button>
+            </Link>
           </div>
         </div>
         <div className="mt-8 flow-root">
@@ -168,6 +134,12 @@ const OrgsDashboard: NextPage = () => {
                         </th>
                         <th
                           scope="col"
+                          className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        >
+                          Created at
+                        </th>
+                        <th
+                          scope="col"
                           className="relative py-3.5 pl-3 pr-4 sm:pr-3"
                         >
                           <span className="sr-only">Edit</span>
@@ -175,9 +147,9 @@ const OrgsDashboard: NextPage = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
-                      {orgs.map((org) => (
+                      {portalData.organizations.map((org) => (
                         <tr
-                          key={org.slug}
+                          key={org.name}
                           className={
                             selectedOrgs.includes(org)
                               ? "bg-gray-50"
@@ -191,7 +163,7 @@ const OrgsDashboard: NextPage = () => {
                             <input
                               type="checkbox"
                               className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-lime-600 focus:ring-lime-600"
-                              value={org.slug}
+                              value={org.name}
                               checked={selectedOrgs.includes(org)}
                               onChange={(e) =>
                                 setSelectedOrgs(
@@ -214,13 +186,17 @@ const OrgsDashboard: NextPage = () => {
                               <div className="h-11 w-11 flex-shrink-0">
                                 <img
                                   className="h-11 w-11 rounded-full"
-                                  src={org.image}
+                                  src={
+                                    org.image
+                                      ? org.image
+                                      : "https://cdn-icons-png.flaticon.com/512/6000/6000233.png"
+                                  }
                                   alt=""
                                 />
                               </div>
                               <div className="ml-4">
                                 <div className="font-medium text-gray-900">
-                                  {org.slug}
+                                  {org.name}
                                 </div>
                               </div>
                             </div>
@@ -234,13 +210,16 @@ const OrgsDashboard: NextPage = () => {
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {org.updatedAt.toLocaleString()}
                           </td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {org.createdAt.toLocaleString()}
+                          </td>
                           <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
                             <Link
-                              href={`/dashboard/orgs/${org.slug}/edit`}
+                              href={`/dashboard/orgs/${org.name}/edit`}
                               className="text-lime-600 hover:text-lime-900"
                             >
                               Edit
-                              <span className="sr-only">, {org.slug}</span>
+                              <span className="sr-only">, {org.name}</span>
                             </Link>
                           </td>
                         </tr>

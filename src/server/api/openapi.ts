@@ -9,5 +9,5 @@ export const openApiDocument = generateOpenApiDocument(appRouter, {
   version: '1.0.0',
   baseUrl: `${env.NEXTAUTH_URL}/api`,
   docsUrl: 'https://github.com/jlalmes/trpc-openapi',
-  tags: ['auth', 'users', 'posts'],
+  tags: ['portals', 'organizations'],
 });

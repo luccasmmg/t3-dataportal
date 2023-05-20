@@ -10,19 +10,43 @@ export const portalRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { sysAdminId: input.sysAdminId },
+        include: {
+          organizations: true,
+        },
       });
       if (!portal) {
-        return null
+        return null;
       }
       return { ...portal };
     }),
+  getAllPortals: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/portal",
+        tags: ["portals"],
+        summary: "Get a list of all the portals inside the system",
+      },
+    })
+    .input(z.void())
+    .output(z.array(PortalSchema))
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.portal.findMany();
+    }),
   getPortalByName: publicProcedure
-    .meta({ openapi: { method: "GET", path: "/portal/{name}" } })
-    .input(z.object({ name: z.string() }))
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/portal/{portalName}",
+        tags: ["portals"],
+        summary: "Get a portal object by the name",
+      },
+    })
+    .input(z.object({ portalName: z.string() }))
     .output(PortalSchema)
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
-        where: { name: input.name },
+        where: { name: input.portalName },
       });
       if (!portal) {
         throw new TRPCError({
@@ -52,7 +76,7 @@ export const portalRouter = createTRPCRouter({
         )
         .otherwise(({ name }) => {
           throw new Error(
-          `You cant create another portal since you are already the owner of the "${name}" portal`
+            `You cant create another portal since you are already the owner of the "${name}" portal`
           );
         });
     }),

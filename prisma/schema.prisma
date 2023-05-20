@@ -103,12 +103,12 @@ model Portal {
 
 model Organization {
   id String @id @default(cuid())
-  slug String @unique
+  name String
   title String
-  description String
+  description String?
   image String?
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
   portalId String 
   Portal Portal @relation(fields: [portalId], references: [id])
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 }
