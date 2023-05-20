@@ -36,29 +36,23 @@ export const portalRouter = createTRPCRouter({
     .input(PortalSchema)
     .mutation(async ({ ctx, input }) => {
       const { session, prisma } = ctx;
-      const data = await prisma.user.findUnique({
+      const data = await prisma.portal.findFirst({
         where: {
-          id: session.user?.id,
-        },
-        select: {
-          stripeSubscriptionStatus: true,
+          sysAdminId: session.user?.id,
         },
       });
 
       return match(data)
         .with(
-          { stripeSubscriptionStatus: "active" },
+          null,
           async () =>
             await ctx.prisma.portal.create({
               data: input,
             })
         )
-        .with(null, () => {
-          throw new Error("Could not find user");
-        })
-        .otherwise(() => {
+        .otherwise(({ name }) => {
           throw new Error(
-            "You need to have a valid stripe subscription to access this"
+          `You cant create another portal since you are already the owner of the "${name}" portal`
           );
         });
     }),

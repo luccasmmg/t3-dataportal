@@ -5,15 +5,19 @@ import { api } from '../../utils/api'
 import { PortalForm } from './PortalForm'
 import { Button } from '../shared/Button'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { ErrorAlert } from '@components/shared/Alerts'
 
 export const CreatePortalForm: React.FC = () => {
   const { push } = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const formObj = useForm<PortalInputs>({
     resolver: zodResolver(PortalSchema),
   })
 
   const createPortal = api.portal.createPortal.useMutation({
-    onSuccess: () => push('/dashboard')
+    onSuccess: () => push('/dashboard'),
+    onError: (error) => setErrorMessage(error.message)
   })
 
   return (
@@ -28,6 +32,7 @@ export const CreatePortalForm: React.FC = () => {
             Create portal
           </Button>
         </div>
+        {errorMessage && <div className='py-4'><ErrorAlert text={errorMessage} /></div>}
       </form>
     </div>
   )

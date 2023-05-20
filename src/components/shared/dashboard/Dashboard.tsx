@@ -51,17 +51,13 @@ export const Dashboard: React.FC<{
   const { push } = useRouter();
   const { data: sessionData } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data: subscriptionStatus, isLoading: subscriptionLoading } =
-    api.user.subscriptionStatus.useQuery();
   const { data: portalData, isLoading: portalLoading } =
     api.portal.getPortalBySysAdminId.useQuery(
       { sysAdminId: sessionData?.user.id },
       { enabled: !!sessionData?.user?.id }
     );
-  if (portalLoading || subscriptionLoading || !sessionData) return <Loading />;
-  if (subscriptionStatus === null) void push("/pricing");
-  if (portalData === null && subscriptionStatus !== null)
-    void push("/newportal");
+  if (portalLoading || !sessionData) return <Loading />;
+  if (portalData === null) void push("/newportal");
 
   if (!portalData) return <Loading />;
   return (
@@ -130,11 +126,13 @@ export const Dashboard: React.FC<{
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-lime-600 px-6 pb-2">
                     <div className="flex h-16 shrink-0 items-center">
-                      <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=white"
-                        alt="Your Company"
-                      />
+                      <Link href="/">
+                        <img
+                          className="h-8 w-auto"
+                          src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                          alt="Your Company"
+                        />
+                      </Link>
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -180,11 +178,13 @@ export const Dashboard: React.FC<{
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-lime-600 px-6">
             <div className="flex h-16 shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=white"
-                alt="Your Company"
-              />
+              <Link href="/">
+                <img
+                  className="h-8 w-auto"
+                  src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                  alt="Your Company"
+                />
+              </Link>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">

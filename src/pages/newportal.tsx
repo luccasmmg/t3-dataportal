@@ -9,7 +9,7 @@ export default function CreatePortal() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Layout>
-        <div className='overflow-hidden bg-white py-16 px-6 lg:px-8 lg:py-24'>
+        <div className='overflow-hidden bg-white py-16 px-6 lg:px-8 lg:py-36'>
           <div className='relative mx-auto max-w-xl'>
             <svg
               className='absolute left-full translate-x-1/2 transform'
