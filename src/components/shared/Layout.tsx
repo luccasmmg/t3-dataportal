@@ -3,10 +3,10 @@ import { NavBar } from "./NavBar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <NavBar />
+    <div className="flex flex-col justify-between h-screen">
+        <NavBar />
         {children}
-      <Footer />
-    </>
+        <Footer />
+    </div>
   );
 }
