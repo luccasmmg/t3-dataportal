@@ -9,6 +9,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { classNames } from "@utils/classnames";
 import Link from "next/link";
 import Head from "next/head";
+import Image from "next/image";
 
 const OrgsDashboard: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -191,8 +192,10 @@ const OrgsDashboard: NextPage = () => {
                             >
                               <div className="flex items-start">
                                 <div className="h-11 w-11 flex-shrink-0">
-                                  <img
+                                  <Image
                                     className="h-11 w-11 rounded-full"
+                                    width={44}
+                                    height={44}
                                     src={
                                       org.image
                                         ? org.image

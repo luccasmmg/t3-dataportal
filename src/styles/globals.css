@@ -5,3 +5,11 @@
 #__next {
   height: 100%;
 }
+
+/* Little hack as uploadthing doesn't currently support styling */
+.ut-items-center {
+  align-items: start;
+}
+.ut-bg-blue-600 {
+  background: #4d7c0f
+}
