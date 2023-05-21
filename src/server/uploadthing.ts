@@ -20,7 +20,7 @@ export const ourFileRouter = {
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return {};
     })
-    .onUploadComplete(async ({ file }) => {
+    .onUploadComplete(({ file }) => {
       console.log("file url", file.url);
     }),
 } satisfies FileRouter;
