@@ -225,7 +225,7 @@ const OrgsDashboard: NextPage = () => {
                             </td>
                             <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
                               <Link
-                                href={`/dashboard/orgs/${org.name}/edit`}
+                                href={`/dashboard/orgs/edit/${org.id}`}
                                 className="text-lime-600 hover:text-lime-900"
                               >
                                 Edit

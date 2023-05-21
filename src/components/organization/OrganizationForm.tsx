@@ -4,6 +4,7 @@ import { OrganizationInputs } from "../../schema/organization.schema";
 import { inputStyle } from "../../styles/formStyles";
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@server/uploadthing";
+import Image from "next/image";
 
 export const OrganizationForm: React.FC<{
   formObj: UseFormReturn<OrganizationInputs>;
@@ -57,7 +58,7 @@ export const OrganizationForm: React.FC<{
         >
           Description
         </label>
-        <div className="mt-1 mb-3">
+        <div className="mb-3 mt-1">
           <textarea
             id="description"
             rows={4}
@@ -66,29 +67,47 @@ export const OrganizationForm: React.FC<{
             {...register("description")}
           />
         </div>
+        <div className="flex flex-col sm:flex-row items-center gap-x-2">
+        {typeof formObj.watch().image === "string" && (
+          <Image
+            className="h-11 w-11 rounded-full"
+            width={44}
+            height={44}
+            alt=""
+            src={formObj.watch().image as string}
+          />
+        )}
         <UploadButton<OurFileRouter>
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
             if (res) {
-              formObj.setValue('image', res[0]?.fileUrl)
-              formObj.clearErrors('image')
+              formObj.setValue("image", res[0]?.fileUrl);
+              formObj.clearErrors("image");
             }
             console.log("Files: ", res);
           }}
           onUploadError={(error: Error) => {
-            formObj.setError('image', { type: 'string', message: "Couldn't upload file, make sure you are uploading only images and try again"})
+            formObj.setError("image", {
+              type: "string",
+              message:
+                "Couldn't upload file, make sure you are uploading only images and try again",
+            });
           }}
-        />
+        /></div>
       </div>
       <div className="sm:col-span-2">
-          <input type="text" className="hidden aria-hidden" {...register("image")} />
-          <ErrorMessage
-            errors={errors}
-            name="image"
-            render={({ message }) => (
-              <p className="text-justify text-xs text-red-600">{message}</p>
-            )}
-          />
+        <input
+          type="text"
+          className="aria-hidden hidden"
+          {...register("image")}
+        />
+        <ErrorMessage
+          errors={errors}
+          name="image"
+          render={({ message }) => (
+            <p className="text-justify text-xs text-red-600">{message}</p>
+          )}
+        />
       </div>
     </div>
   );

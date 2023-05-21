@@ -8,6 +8,7 @@ export const OrganizationSchema = z.object({
   title: z.string(),
   image: z.string().url().optional().nullable(),
   description: z.string().optional().nullable(),
+  id: z.string().optional(),
 })
 
 export type OrganizationInputs = z.infer<typeof OrganizationSchema>;

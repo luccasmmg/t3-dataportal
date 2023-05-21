@@ -52,7 +52,7 @@ export const organizationRouter = createTRPCRouter({
         });
       }
       const organization = await ctx.prisma.organization.findFirst({
-        where: { portalId: portal.id },
+        where: { portalId: portal.id, name: input.organizationName },
       });
       if (!organization) {
         throw new TRPCError({
@@ -61,6 +61,13 @@ export const organizationRouter = createTRPCRouter({
         });
       }
       return { ...organization };
+    }),
+  getOrganizationById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.organization.findFirst({
+        where: { id: input.id },
+      });
     }),
   createOrganization: protectedProcedure
     .input(OrganizationSchema)
@@ -85,5 +92,15 @@ export const organizationRouter = createTRPCRouter({
             "You can't create an organization since you don't own any portal"
           );
         });
+    }),
+  editOrganization: protectedProcedure
+    .input(OrganizationSchema)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.organization.update({
+        where: {
+          id: input.id,
+        },
+        data: { ...input },
+      });
     }),
 });
