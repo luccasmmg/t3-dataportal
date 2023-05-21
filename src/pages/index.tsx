@@ -31,10 +31,10 @@ const Home: NextPage = () => {
               <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
                 <div className="text-center">
                   <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                    A Data Catalog System made with the T3-Stack
+                  T3-Dataportal
                   </h1>
                   <p className="mt-6 text-lg leading-8 text-gray-600">
-                    Do not use this website, this is only intended for me to
+                    This is a project intended to build a headless data catalog management system with the T3-Stack. Do not use this website, this is only intended for me to
                     train full-stack development with NextJS, stuff will break
                     and i&apos;m not responsible for it
                   </p>
