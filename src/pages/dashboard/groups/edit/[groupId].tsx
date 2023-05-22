@@ -6,15 +6,18 @@ import { api } from "@utils/api";
 import { EditGroupForm } from "@components/group/EditGroupForm";
 import Loading from "@components/shared/Loading";
 
-const CreateGroupDashboard: NextPage<{ groupId: string }> = ({
-  groupId,
-}) => {
+const CreateGroupDashboard: NextPage<{ groupId: string }> = ({ groupId }) => {
   const { data: groupData, isLoading: groupLoading } =
     api.group.getGroupById.useQuery({
       id: groupId,
     });
   if (groupLoading) return <Loading />;
-  if (!groupData) return <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Group not found</h1>
+  if (!groupData)
+    return (
+      <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+        Group not found
+      </h1>
+    );
   return (
     <>
       <Head>
@@ -30,8 +33,8 @@ const CreateGroupDashboard: NextPage<{ groupId: string }> = ({
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">
               <p className="mt-2 text-sm text-gray-700">
-                Groups reflect the structure of your portal, every
-                dataset must be assigned to an organization
+                Groups reflect the structure of your portal, every dataset must
+                be assigned to an organization
               </p>
             </div>
           </div>

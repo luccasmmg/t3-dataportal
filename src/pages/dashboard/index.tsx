@@ -9,7 +9,7 @@ import { Dashboard } from "@components/shared/dashboard/Dashboard";
 import Head from "next/head";
 
 const InitialDashboard: NextPage = () => {
-  const { push } = useRouter()
+  const { push } = useRouter();
   const { data: sessionData } = useSession();
   const { data: portalData, isLoading: portalLoading } =
     api.portal.getPortalBySysAdminId.useQuery(
@@ -17,7 +17,7 @@ const InitialDashboard: NextPage = () => {
       { enabled: !!sessionData?.user?.id }
     );
   if (portalLoading) return <Loading />;
-  if (portalData === null) push('/newportal')
+  if (portalData === null) push("/newportal");
   if (!portalData) return <Loading />;
   return (
     <>

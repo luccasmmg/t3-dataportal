@@ -15,7 +15,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   portal: portalRouter,
   organization: organizationRouter,
-  group: groupRouter
+  group: groupRouter,
 });
 
 // export type definition of API

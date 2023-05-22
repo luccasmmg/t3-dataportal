@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createUploadthing, type FileRouter } from "uploadthing/next-legacy";
-import {getServerAuthSession } from "./auth";
+import { getServerAuthSession } from "./auth";
 const f = createUploadthing();
- 
+
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
@@ -13,10 +13,10 @@ export const ourFileRouter = {
     .middleware(async (req, res) => {
       // This code runs on your server before upload
       const session = await getServerAuthSession({ req, res });
- 
+
       // If you throw, the user will not be able to upload
       if (!session) throw new Error("Unauthorized");
- 
+
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return {};
     })
@@ -24,5 +24,5 @@ export const ourFileRouter = {
       console.log("file url", file.url);
     }),
 } satisfies FileRouter;
- 
+
 export type OurFileRouter = typeof ourFileRouter;

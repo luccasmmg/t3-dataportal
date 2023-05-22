@@ -16,7 +16,7 @@ export const GroupForm: React.FC<{
     control,
     watch,
   } = formObj;
-  console.log(watch())
+  console.log(watch());
   return (
     <div className="grid grid-cols-1 items-start gap-2 sm:grid-cols-2">
       <div>
@@ -72,7 +72,7 @@ export const GroupForm: React.FC<{
           />
         </div>
         <div className="flex flex-col items-center gap-x-2 sm:flex-row">
-          {typeof watch().image === "string" && watch().image !== '' && (
+          {typeof watch().image === "string" && watch().image !== "" && (
             <Image
               className="h-11 w-11 rounded-full"
               width={44}

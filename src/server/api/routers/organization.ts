@@ -45,7 +45,7 @@ export const organizationRouter = createTRPCRouter({
           code: "NOT_FOUND",
         });
       }
-      return portal.organizations
+      return portal.organizations;
     }),
   getOrganizationByName: publicProcedure
     .meta({

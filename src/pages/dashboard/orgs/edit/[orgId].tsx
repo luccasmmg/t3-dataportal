@@ -14,7 +14,12 @@ const CreateOrganizationDashboard: NextPage<{ orgId: string }> = ({
       id: orgId,
     });
   if (orgLoading) return <Loading />;
-  if (!orgData) return <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Group not found</h1>
+  if (!orgData)
+    return (
+      <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+        Group not found
+      </h1>
+    );
   return (
     <>
       <Head>

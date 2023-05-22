@@ -21,7 +21,7 @@ import { type Session } from "next-auth";
 
 import { getServerAuthSession } from "../auth";
 import { prisma } from "../db";
-import { stripe } from '../stripe/client'
+import { stripe } from "../stripe/client";
 
 type CreateContextOptions = {
   session: Session | null;
@@ -40,7 +40,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     prisma,
-    stripe
+    stripe,
   };
 };
 
@@ -55,7 +55,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   // Get the session from the server using the unstable_getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
-    return {
+  return {
     ...createInnerTRPCContext({
       session,
     }),
@@ -74,12 +74,15 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { OpenApiMeta } from "trpc-openapi";
 import superjson from "superjson";
 
-const t = initTRPC.meta<OpenApiMeta>().context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape }) {
-    return shape;
-  },
-});
+const t = initTRPC
+  .meta<OpenApiMeta>()
+  .context<typeof createTRPCContext>()
+  .create({
+    transformer: superjson,
+    errorFormatter({ shape }) {
+      return shape;
+    },
+  });
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)

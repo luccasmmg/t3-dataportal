@@ -16,7 +16,7 @@ export const OrganizationForm: React.FC<{
     control,
     watch,
   } = formObj;
-  console.log(watch())
+  console.log(watch());
   return (
     <div className="grid grid-cols-1 items-start gap-2 sm:grid-cols-2">
       <div>
@@ -71,7 +71,7 @@ export const OrganizationForm: React.FC<{
             {...register("description")}
           />
         </div>
-        <div className="sm:col-span-2 pb-2">
+        <div className="pb-2 sm:col-span-2">
           <label
             htmlFor="private"
             className="block text-sm font-medium text-gray-700"
@@ -95,7 +95,7 @@ export const OrganizationForm: React.FC<{
           </div>
         </div>
         <div className="flex flex-col items-center gap-x-2 sm:flex-row">
-          {typeof watch().image === "string" && watch().image !== '' && (
+          {typeof watch().image === "string" && watch().image !== "" && (
             <Image
               className="h-11 w-11 rounded-full"
               width={44}

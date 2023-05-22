@@ -1,9 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  GroupInputs,
-  GroupSchema,
-} from "../../schema/group.schema";
+import { GroupInputs, GroupSchema } from "../../schema/group.schema";
 import { api } from "../../utils/api";
 import { GroupForm } from "./GroupForm";
 import { Button } from "../shared/Button";

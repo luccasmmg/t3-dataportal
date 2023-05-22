@@ -224,7 +224,7 @@ const OrgsDashboard: NextPage = () => {
                               {org.description}
                             </td>
                             <td className="px-3 py-4 text-sm text-gray-500">
-                              {org.private ? 'Private' : 'Public'}
+                              {org.private ? "Private" : "Public"}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {org.updatedAt.toLocaleString()}

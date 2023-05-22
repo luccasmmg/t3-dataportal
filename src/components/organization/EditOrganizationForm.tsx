@@ -13,7 +13,9 @@ import NotificationSuccess from "@components/shared/Notifications";
 import { match } from "ts-pattern";
 import { Organization } from "@prisma/client";
 
-export const EditOrganizationForm: React.FC<{ org: Organization }> = ({ org }) => {
+export const EditOrganizationForm: React.FC<{ org: Organization }> = ({
+  org,
+}) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [orgEdited, setOrgEdited] = useState("");
@@ -30,7 +32,7 @@ export const EditOrganizationForm: React.FC<{ org: Organization }> = ({ org }) =
     onError: (error) => setErrorMessage(error.message),
   });
 
-  console.log(formObj.watch())
+  console.log(formObj.watch());
   return (
     <>
       <form

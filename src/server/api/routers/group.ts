@@ -45,7 +45,7 @@ export const groupRouter = createTRPCRouter({
           code: "NOT_FOUND",
         });
       }
-      return portal.groups
+      return portal.groups;
     }),
   getGroupByName: publicProcedure
     .meta({
