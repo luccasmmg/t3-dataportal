@@ -1,11 +1,11 @@
-import { useController, UseControllerProps } from "react-hook-form";
+import { FieldValues, Path, useController, UseControllerProps } from "react-hook-form";
 import { Switch } from "@headlessui/react";
 import { classNames } from "../../utils/classnames";
 import { PortalInputs } from "../../schema/portal.schema";
 import { OrganizationInputs } from "@schema/organization.schema";
 
-export const CustomSwitch = (
-  props: UseControllerProps<PortalInputs | OrganizationInputs>
+export const CustomSwitch = <T extends FieldValues>(
+  props: UseControllerProps<T, Path<T>>
 ) => {
   const {
     field: { value, onChange },

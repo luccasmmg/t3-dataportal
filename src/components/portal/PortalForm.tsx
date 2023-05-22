@@ -1,23 +1,17 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { useSession } from "next-auth/react";
 import type { UseFormReturn } from "react-hook-form";
-import { useController, UseControllerProps } from "react-hook-form";
-import { Switch } from "@headlessui/react";
 import { PortalInputs } from "../../schema/portal.schema";
-import { useState } from "react";
 import { inputStyle } from "../../styles/formStyles";
-import { classNames } from "../../utils/classnames";
 import { CustomSwitch } from "../shared/CustomSwitch";
 
 export const PortalForm: React.FC<{
   formObj: UseFormReturn<PortalInputs>;
 }> = ({ formObj }) => {
-  const [agreed, setAgreed] = useState(false);
   const { data: sessionData } = useSession();
   const {
     register,
     formState: { errors },
-    watch,
     control,
   } = formObj;
   return (

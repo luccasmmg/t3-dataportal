@@ -18,7 +18,7 @@ export const CreatePortalForm: React.FC = () => {
   const createPortal = api.portal.createPortal.useMutation({
     onSuccess: (data) => {
       console.log(data);
-      push("/dashboard");
+      void push("/dashboard");
     },
     onError: (error) => setErrorMessage(error.message),
   });

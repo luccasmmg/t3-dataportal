@@ -29,8 +29,8 @@ const CreateOrganizationDashboard: NextPage<{ orgId: string }> = ({
       </Head>
       <Dashboard current="orgs">
         <div className="max-w-xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-            Edit "{orgData.title}"
+          <h1 className="text-2xl font-bold tracking-tight text-lime-900 sm:text-3xl">
+            {orgData.title}
           </h1>
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">

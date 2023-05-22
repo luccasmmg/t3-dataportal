@@ -17,7 +17,7 @@ const InitialDashboard: NextPage = () => {
       { enabled: !!sessionData?.user?.id }
     );
   if (portalLoading) return <Loading />;
-  if (portalData === null) push("/newportal");
+  if (portalData === null) void push("/newportal");
   if (!portalData) return <Loading />;
   return (
     <>
