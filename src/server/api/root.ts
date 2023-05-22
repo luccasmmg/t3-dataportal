@@ -3,6 +3,7 @@ import { stripeRouter } from "./routers/stripe";
 import { userRouter } from "./routers/user";
 import { portalRouter } from "./routers/portal";
 import { organizationRouter } from "./routers/organization";
+import { groupRouter } from "./routers/group";
 
 /**
  * This is the primary router for your server.
@@ -13,7 +14,8 @@ export const appRouter = createTRPCRouter({
   stripe: stripeRouter,
   user: userRouter,
   portal: portalRouter,
-  organization: organizationRouter
+  organization: organizationRouter,
+  group: groupRouter
 });
 
 // export type definition of API

@@ -2,20 +2,20 @@ import { TRPCError } from "@trpc/server";
 import { match, P } from "ts-pattern";
 import { z } from "zod";
 import { protectedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
-import { OrganizationSchema } from "@schema/organization.schema";
+import { GroupSchema } from "@schema/group.schema";
 
-export const organizationRouter = createTRPCRouter({
-  getAllOrganizations: publicProcedure
+export const groupRouter = createTRPCRouter({
+  getAllGroups: publicProcedure
     .meta({
       openapi: {
         method: "GET",
-        path: "/{portalName}/organization",
-        tags: ["organizations"],
-        summary: "Get a list of all the organizations inside a portal",
+        path: "/{portalName}/group",
+        tags: ["groups"],
+        summary: "Get a list of all the groups inside a portal",
       },
     })
     .input(z.object({ portalName: z.string() }))
-    .output(z.array(OrganizationSchema))
+    .output(z.array(GroupSchema))
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },
@@ -26,17 +26,17 @@ export const organizationRouter = createTRPCRouter({
           code: "NOT_FOUND",
         });
       }
-      return await ctx.prisma.organization.findMany({
-        where: { portalId: portal.id, private: false },
+      return await ctx.prisma.group.findMany({
+        where: { portalId: portal.id },
       });
     }),
-  getAllOrganizationsAdmin: protectedProcedure
+  getAllGroupsAdmin: protectedProcedure
     .input(z.void())
     .query(async ({ ctx }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { sysAdminId: ctx.session.user.id },
         include: {
-          organizations: true,
+          groups: true,
         },
       });
       if (!portal) {
@@ -45,19 +45,19 @@ export const organizationRouter = createTRPCRouter({
           code: "NOT_FOUND",
         });
       }
-      return portal.organizations
+      return portal.groups
     }),
-  getOrganizationByName: publicProcedure
+  getGroupByName: publicProcedure
     .meta({
       openapi: {
         method: "GET",
-        path: "/{portalName}/organization/{organizationName}",
-        tags: ["organizations"],
-        summary: "Get a organization object inside a portal by name",
+        path: "/{portalName}/group/{groupName}",
+        tags: ["groups"],
+        summary: "Get a group object inside a portal by name",
       },
     })
-    .input(z.object({ portalName: z.string(), organizationName: z.string() }))
-    .output(OrganizationSchema)
+    .input(z.object({ portalName: z.string(), groupName: z.string() }))
+    .output(GroupSchema)
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },
@@ -68,26 +68,26 @@ export const organizationRouter = createTRPCRouter({
           code: "NOT_FOUND",
         });
       }
-      const organization = await ctx.prisma.organization.findFirst({
-        where: { portalId: portal.id, name: input.organizationName },
+      const group = await ctx.prisma.group.findFirst({
+        where: { portalId: portal.id, name: input.groupName },
       });
-      if (!organization) {
+      if (!group) {
         throw new TRPCError({
-          message: "Organization not found",
+          message: "Group not found",
           code: "NOT_FOUND",
         });
       }
-      return { ...organization };
+      return { ...group };
     }),
-  getOrganizationById: protectedProcedure
+  getGroupById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      return await ctx.prisma.organization.findFirst({
+      return await ctx.prisma.group.findFirst({
         where: { id: input.id },
       });
     }),
-  createOrganization: protectedProcedure
-    .input(OrganizationSchema)
+  createGroup: protectedProcedure
+    .input(GroupSchema)
     .mutation(async ({ ctx, input }) => {
       const { session, prisma } = ctx;
       const portal = await prisma.portal.findFirst({
@@ -100,20 +100,20 @@ export const organizationRouter = createTRPCRouter({
         .with(
           { id: P.select() },
           async (portalId) =>
-            await ctx.prisma.organization.create({
+            await ctx.prisma.group.create({
               data: { ...input, portalId },
             })
         )
         .otherwise(() => {
           throw new Error(
-            "You can't create an organization since you don't own any portal"
+            "You can't create an group since you don't own any portal"
           );
         });
     }),
-  editOrganization: protectedProcedure
-    .input(OrganizationSchema)
+  editGroup: protectedProcedure
+    .input(GroupSchema)
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.organization.update({
+      await ctx.prisma.group.update({
         where: {
           id: input.id,
         },

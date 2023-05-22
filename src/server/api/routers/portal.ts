@@ -12,6 +12,7 @@ export const portalRouter = createTRPCRouter({
         where: { sysAdminId: input.sysAdminId },
         include: {
           organizations: true,
+          groups: true,
         },
       });
       if (!portal) {
