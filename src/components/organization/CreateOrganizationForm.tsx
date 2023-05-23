@@ -29,6 +29,8 @@ export const CreateOrganizationForm: React.FC = () => {
     onError: (error) => setErrorMessage(error.message),
   });
 
+  console.log(formObj.formState.errors)
+  console.log(formObj.watch())
   return (
     <>
       <form

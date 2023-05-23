@@ -86,20 +86,24 @@ const GroupsDashboard: NextPage = () => {
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <div className="relative">
-                {!deleteGroups.isLoading ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      deleteGroups.mutate({
-                        ids: selectedGroups.map((group) => group.id),
-                      });
-                    }}
-                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-                  >
-                    Delete all
-                  </button>
-                ) : (
-                  <div className="loader mb-4 h-4 w-4 rounded-full border-4 border-t-4 border-gray-200 ease-linear"></div>
+                {selectedGroups.length > 0 && (
+                  <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">
+                    {!deleteGroups.isLoading ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          deleteGroups.mutate({
+                            ids: selectedGroups.map((group) => group.id),
+                          });
+                        }}
+                        className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                      >
+                        Delete all
+                      </button>
+                    ) : (
+                      <div className="loader mb-4 h-4 w-4 rounded-full border-4 border-t-4 border-gray-200 ease-linear"></div>
+                    )}
+                  </div>
                 )}
                 <div className="ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
                   <table className="min-w-full table-fixed divide-y divide-gray-300">

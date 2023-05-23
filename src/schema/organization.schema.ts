@@ -9,7 +9,7 @@ export const OrganizationSchema = z.object({
     ),
   title: z.string(),
   image: z.string().url().optional().nullable(),
-  description: z.string().optional().nullable(),
+  description: z.string().optional().nullable().default(null),
   private: z.boolean().default(false),
   id: z.string().optional(),
 });

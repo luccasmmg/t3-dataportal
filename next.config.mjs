@@ -17,6 +17,10 @@ const config = {
         protocol: "https",
         hostname: "uploadthing.com",
       },
+      {
+        protocol: "https",
+        hostname: "cdn-icons-png.flaticon.com",
+      },
     ],
   },
   /* If trying out the experimental appDir, comment the i18n config out

@@ -13,10 +13,8 @@ export const GroupForm: React.FC<{
   const {
     register,
     formState: { errors },
-    control,
     watch,
   } = formObj;
-  console.log(watch());
   return (
     <div className="grid grid-cols-1 items-start gap-2 sm:grid-cols-2">
       <div>
@@ -101,11 +99,6 @@ export const GroupForm: React.FC<{
         </div>
       </div>
       <div className="sm:col-span-2">
-        <input
-          type="text"
-          className="aria-hidden hidden"
-          {...register("image")}
-        />
         <ErrorMessage
           errors={errors}
           name="image"
