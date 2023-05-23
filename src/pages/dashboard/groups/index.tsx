@@ -20,8 +20,9 @@ const GroupsDashboard: NextPage = () => {
   const checkbox = useRef<HTMLInputElement>(null);
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
-  const [selectedOrgs, setSelectedOrgs] = useState<
+  const [selectedGroups, setSelectedGroups] = useState<
     {
+      id: string;
       name: string;
       title: string;
       description: string | null;
@@ -31,22 +32,29 @@ const GroupsDashboard: NextPage = () => {
     }[]
   >([]);
 
+  const utils = api.useContext();
+  const deleteGroups = api.group.deleteGroups.useMutation({
+    onSuccess: async () => {
+      await utils.portal.getPortalBySysAdminId.invalidate();
+    },
+  });
+
   useLayoutEffect(() => {
     if (portalData) {
       const isIndeterminate =
-        selectedOrgs.length > 0 &&
-        selectedOrgs.length < portalData.groups.length;
-      setChecked(selectedOrgs.length === portalData.groups.length);
+        selectedGroups.length > 0 &&
+        selectedGroups.length < portalData.groups.length;
+      setChecked(selectedGroups.length === portalData.groups.length);
       setIndeterminate(isIndeterminate);
       if (checkbox.current) checkbox.current.indeterminate = isIndeterminate;
     }
-  }, [selectedOrgs]);
+  }, [selectedGroups]);
 
   if (!portalData) return <Loading />;
 
   function toggleAll() {
     if (portalData) {
-      setSelectedOrgs(checked || indeterminate ? [] : portalData.groups);
+      setSelectedGroups(checked || indeterminate ? [] : portalData.groups);
       setChecked(!checked && !indeterminate);
       setIndeterminate(false);
     }
@@ -78,15 +86,20 @@ const GroupsDashboard: NextPage = () => {
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <div className="relative">
-                {selectedOrgs.length > 0 && (
-                  <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">
-                    <button
-                      type="button"
-                      className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-                    >
-                      Delete all
-                    </button>
-                  </div>
+                {!deleteGroups.isLoading ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      deleteGroups.mutate({
+                        ids: selectedGroups.map((group) => group.id),
+                      });
+                    }}
+                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                  >
+                    Delete all
+                  </button>
+                ) : (
+                  <div className="loader mb-4 h-4 w-4 rounded-full border-4 border-t-4 border-gray-200 ease-linear"></div>
                 )}
                 <div className="ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
                   <table className="min-w-full table-fixed divide-y divide-gray-300">
@@ -153,25 +166,25 @@ const GroupsDashboard: NextPage = () => {
                         <tr
                           key={group.name}
                           className={
-                            selectedOrgs.includes(group)
+                            selectedGroups.includes(group)
                               ? "bg-gray-50"
                               : undefined
                           }
                         >
                           <td className="relative px-7 sm:w-12 sm:px-6">
-                            {selectedOrgs.includes(group) && (
+                            {selectedGroups.includes(group) && (
                               <div className="absolute inset-y-0 left-0 w-0.5 bg-lime-600" />
                             )}
                             <input
                               type="checkbox"
                               className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-lime-600 focus:ring-lime-600"
                               value={group.name}
-                              checked={selectedOrgs.includes(group)}
+                              checked={selectedGroups.includes(group)}
                               onChange={(e) =>
-                                setSelectedOrgs(
+                                setSelectedGroups(
                                   e.target.checked
-                                    ? [...selectedOrgs, group]
-                                    : selectedOrgs.filter((p) => p !== group)
+                                    ? [...selectedGroups, group]
+                                    : selectedGroups.filter((p) => p !== group)
                                 )
                               }
                             />
@@ -179,7 +192,7 @@ const GroupsDashboard: NextPage = () => {
                           <td
                             className={classNames(
                               "whitespace-nowrap py-4 pr-3 text-sm font-medium",
-                              selectedOrgs.includes(group)
+                              selectedGroups.includes(group)
                                 ? "text-lime-600"
                                 : "text-gray-900"
                             )}

@@ -23,6 +23,7 @@ const OrgsDashboard: NextPage = () => {
   const [indeterminate, setIndeterminate] = useState(false);
   const [selectedOrgs, setSelectedOrgs] = useState<
     {
+      id: string;
       name: string;
       title: string;
       description: string | null;
@@ -31,6 +32,13 @@ const OrgsDashboard: NextPage = () => {
       image: string | null;
     }[]
   >([]);
+
+  const utils = api.useContext();
+  const deleteOrganizations = api.organization.deleteOrganizations.useMutation({
+    onSuccess: async () => {
+      await utils.portal.getPortalBySysAdminId.invalidate();
+    },
+  });
 
   useLayoutEffect(() => {
     if (portalData) {
@@ -86,12 +94,21 @@ const OrgsDashboard: NextPage = () => {
                 <div className="relative">
                   {selectedOrgs.length > 0 && (
                     <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">
-                      <button
-                        type="button"
-                        className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-                      >
-                        Delete all
-                      </button>
+                      {!deleteOrganizations.isLoading ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            deleteOrganizations.mutate({
+                              ids: selectedOrgs.map((org) => org.id),
+                            });
+                          }}
+                          className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                        >
+                          Delete all
+                        </button>
+                      ) : (
+                        <div className="loader mb-4 h-4 w-4 rounded-full border-4 border-t-4 border-gray-200 ease-linear"></div>
+                      )}
                     </div>
                   )}
                   <div className="ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">

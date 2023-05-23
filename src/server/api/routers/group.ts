@@ -120,4 +120,13 @@ export const groupRouter = createTRPCRouter({
         data: { ...input },
       });
     }),
+  deleteGroups: protectedProcedure
+    .input(z.object({ ids: z.array(z.string())}))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.group.deleteMany({
+        where: {
+          id: { in: input.ids },
+        },
+      });
+    }),
 });

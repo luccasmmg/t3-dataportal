@@ -120,4 +120,13 @@ export const organizationRouter = createTRPCRouter({
         data: { ...input },
       });
     }),
+  deleteOrganizations: protectedProcedure
+    .input(z.object({ ids: z.array(z.string())}))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.organization.deleteMany({
+        where: {
+          id: { in: input.ids },
+        },
+      });
+    }),
 });
