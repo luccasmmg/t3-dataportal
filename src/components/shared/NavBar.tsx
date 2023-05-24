@@ -7,6 +7,7 @@ import {
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Fragment, useState } from "react";
+import { P, match } from "ts-pattern";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -14,7 +15,7 @@ const navigation = [
 ];
 
 export function NavBar({ dashboard = false }: { dashboard?: boolean }) {
-  const { data: sessionData } = useSession();
+  const sessionData = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <header className="absolute inset-x-0 top-0 z-50">
@@ -54,19 +55,24 @@ export function NavBar({ dashboard = false }: { dashboard?: boolean }) {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {sessionData && sessionData.user && sessionData.user.name ? (
-            <LoginDropdown
-              username={sessionData.user.name}
-              avatar={sessionData.user.image}
-            />
-          ) : (
-            <button
-              onClick={() => signIn()}
-              className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900"
-            >
-              Log in
-            </button>
-          )}
+          {match(sessionData)
+            .with({ data: P.select(), status: "authenticated" }, (data) => (
+              <LoginDropdown
+                username={data.user.name ? data.user.name : "null"}
+                avatar={data.user.image}
+              />
+            ))
+            .with({ status: "loading" }, () => (
+              <div className="loader mb-4 h-12 w-12 rounded-full border-4 border-t-4 border-gray-200 ease-linear"></div>
+            ))
+            .otherwise(() => (
+              <button
+                onClick={() => signIn()}
+                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900"
+              >
+                Log in
+              </button>
+            ))}
         </div>
       </nav>
       <Dialog
@@ -96,25 +102,30 @@ export function NavBar({ dashboard = false }: { dashboard?: boolean }) {
             </button>
           </div>
           <div className="mt-6 flow-root">
-            {sessionData && sessionData.user && sessionData.user.name ? (
-              <LoginMobile
-                username={sessionData.user.name}
-                avatar={sessionData.user.image}
-              />
-            ) : (
-              <div className="border-t border-gray-200 pb-3 pt-4">
-                <div className="flex items-center">
-                  <div className="text-base font-medium text-gray-800">
-                    <button
-                      onClick={() => signIn()}
-                      className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-                    >
-                      Logar
-                    </button>
+            {match(sessionData)
+              .with({ data: P.select(), status: "authenticated" }, (data) => (
+                <LoginMobile
+                  username={data.user.name ? data.user.name : ""}
+                  avatar={data.user.image}
+                />
+              ))
+              .with({ status: "loading" }, () => (
+                <div className="loader mb-4 h-12 w-12 rounded-full border-4 border-t-4 border-gray-200 ease-linear"></div>
+              ))
+              .otherwise(() => (
+                <div className="border-t border-gray-200 pb-3 pt-4">
+                  <div className="flex items-center">
+                    <div className="text-base font-medium text-gray-800">
+                      <button
+                        onClick={() => signIn()}
+                        className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                      >
+                        Logar
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              ))}
           </div>
         </Dialog.Panel>
       </Dialog>
