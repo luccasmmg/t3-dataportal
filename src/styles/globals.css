@@ -13,3 +13,8 @@
 .ut-bg-blue-600 {
   background: #4d7c0f;
 }
+
+/* Aligning swagger elements to navbar elements */
+.swagger-ui .wrapper {
+  padding: 0px !important;
+}
