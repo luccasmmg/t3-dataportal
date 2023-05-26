@@ -13,6 +13,7 @@ export const portalRouter = createTRPCRouter({
         include: {
           organizations: true,
           groups: true,
+          datasets: true,
         },
       });
       if (!portal) {

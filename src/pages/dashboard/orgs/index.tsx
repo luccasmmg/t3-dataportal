@@ -10,6 +10,7 @@ import { classNames } from "@utils/classnames";
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
+import { Organization } from "@prisma/client";
 
 const OrgsDashboard: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -21,16 +22,7 @@ const OrgsDashboard: NextPage = () => {
   const checkbox = useRef<HTMLInputElement>(null);
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
-  const [selectedOrgs, setSelectedOrgs] = useState<
-    {
-      id: string;
-      name: string;
-      title: string;
-      description: string | null;
-      updatedAt: Date;
-      createdAt: Date;
-      image: string | null;
-    }[]
+  const [selectedOrgs, setSelectedOrgs] = useState<Organization[]
   >([]);
 
   const utils = api.useContext();

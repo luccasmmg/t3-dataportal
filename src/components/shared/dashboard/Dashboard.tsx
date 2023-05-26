@@ -23,16 +23,16 @@ export const Dashboard: React.FC<{
   const navigation = [
     { id: "initial", name: "Dashboard", href: "/dashboard", icon: HomeIcon },
     {
-      id: "orgs",
-      name: "Organizations",
-      href: "/dashboard/orgs",
-      icon: BuildingOfficeIcon,
-    },
-    {
       id: "datasets",
       name: "Datasets",
       href: "/dashboard/datasets",
       icon: CircleStackIcon,
+    },
+    {
+      id: "orgs",
+      name: "Organizations",
+      href: "/dashboard/orgs",
+      icon: BuildingOfficeIcon,
     },
     {
       id: "groups",

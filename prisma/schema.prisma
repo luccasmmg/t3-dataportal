@@ -46,6 +46,7 @@ model User {
   accounts                 Account[]
   sessions                 Session[]
   portals                  Portal[]
+  datasets Dataset[]
 }
 
 model VerificationToken {
@@ -81,6 +82,7 @@ model Portal {
   SysAdmin      User           @relation(fields: [sysAdminId], references: [id])
   organizations Organization[]
   groups Group[]
+  datasets Dataset[]
 }
 
 model Organization {
@@ -92,8 +94,9 @@ model Organization {
   updatedAt   DateTime @updatedAt
   portalId    String
   name        String
-  private     Boolean  @default(false)
+  private     Boolean  @default(true)
   Portal      Portal   @relation(fields: [portalId], references: [id])
+  datasets Dataset[]
 }
 
 model Group {
@@ -106,6 +109,29 @@ model Group {
   updatedAt   DateTime @updatedAt
   portalId    String
   Portal      Portal   @relation(fields: [portalId], references: [id])
+  datasets Dataset[]
+}
+
+model Dataset {
+  id           String   @id @default(cuid())
+  name         String
+  title        String
+  description  String?
+  url          String?
+  authorEmail  String?
+  licenseId    String?
+  licenseTitle String?
+  licenseUrl   String?
+  private      Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  portalId     String
+  Portal       Portal   @relation(fields: [portalId], references: [id])
+  orgId        String
+  Organization Organization @relation(fields: [orgId], references: [id])
+  creatorId    String
+  Creator      User @relation(fields: [creatorId], references: [id])
+  groups       Group[]
 }
 
 enum StripeSubscriptionStatus {

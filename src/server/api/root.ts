@@ -4,6 +4,7 @@ import { userRouter } from "./routers/user";
 import { portalRouter } from "./routers/portal";
 import { organizationRouter } from "./routers/organization";
 import { groupRouter } from "./routers/group";
+import { datasetRouter } from "./routers/dataset";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   portal: portalRouter,
   organization: organizationRouter,
   group: groupRouter,
+  dataset: datasetRouter,
 });
 
 // export type definition of API
