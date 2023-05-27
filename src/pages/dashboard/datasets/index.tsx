@@ -120,7 +120,7 @@ const DatasetsDashboard: NextPage = () => {
                           </th>
                           <th
                             scope="col"
-                            className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
+                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                           >
                             Name
                           </th>
@@ -156,9 +156,15 @@ const DatasetsDashboard: NextPage = () => {
                           </th>
                           <th
                             scope="col"
-                            className="relative py-3.5 pl-3 pr-4 sm:pr-3"
+                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                           >
-                            <span className="sr-only">Edit</span>
+                            Resources
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                          >
+                            Edit
                           </th>
                         </tr>
                       </thead>
@@ -193,6 +199,9 @@ const DatasetsDashboard: NextPage = () => {
                               />
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {dataset.name}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {dataset.title}
                             </td>
                             <td className="px-3 py-4 text-sm text-gray-500">
@@ -207,7 +216,18 @@ const DatasetsDashboard: NextPage = () => {
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {dataset.createdAt.toLocaleString()}
                             </td>
-                            <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
+                            <td className="whitespace-nowrap px-3 py-4 text-sm font-medium">
+                              <Link
+                                href={`/dashboard/datasets/${dataset.id}/resources`}
+                                className="text-lime-600 hover:text-lime-900"
+                              >
+                                Resources
+                                <span className="sr-only">
+                                  , {dataset.name}
+                                </span>
+                              </Link>
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm font-medium">
                               <Link
                                 href={`/dashboard/datasets/edit/${dataset.id}`}
                                 className="text-lime-600 hover:text-lime-900"

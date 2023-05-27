@@ -1,23 +1,26 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DatasetInputs, DatasetSchema } from "../../schema/dataset.schema";
 import { api } from "../../utils/api";
-import { DatasetForm } from "./DatasetForm";
 import { Button } from "../shared/Button";
 import { useState } from "react";
 import { ErrorAlert } from "@components/shared/Alerts";
 import NotificationSuccess from "@components/shared/Notifications";
 import { match } from "ts-pattern";
+import { ResourceSchema, ResourceInputs } from "@schema/resource.schema";
+import { ResourceForm } from "./ResourceForm";
+import { useRouter } from "next/router";
 
-export const CreateDatasetForm: React.FC = () => {
+export const CreateResourceForm: React.FC = () => {
+  const { datasetId } = useRouter().query;
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [datasetCreated, setDatasetCreated] = useState("");
-  const formObj = useForm<DatasetInputs>({
-    resolver: zodResolver(DatasetSchema),
+  const [resourceCreated, setResourceCreated] = useState("");
+
+  const formObj = useForm<ResourceInputs>({
+    resolver: zodResolver(ResourceSchema),
   });
 
-  const createDataset = api.dataset.createDataset.useMutation({
+  const createResource = api.resource.createResource.useMutation({
     onSuccess: () => {
       setShowSuccess(true);
       formObj.reset();
@@ -30,17 +33,19 @@ export const CreateDatasetForm: React.FC = () => {
     <>
       <form
         onSubmit={formObj.handleSubmit((data) => {
-          setDatasetCreated(formObj.watch().name);
+          setResourceCreated(formObj.watch().name);
           setShowSuccess(false);
-          createDataset.mutate(data);
+          createResource.mutate(data);
         })}
       >
-        <DatasetForm formObj={formObj} />
+        {datasetId && typeof datasetId === "string" && (
+          <ResourceForm formObj={formObj} datasetId={datasetId} />
+        )}
         <div className="col-span-full">
-          {match(createDataset.isLoading)
+          {match(createResource.isLoading)
             .with(false, () => (
               <Button type="submit" color="lime" className="mt-8 w-full py-4">
-                Create dataset
+                Create resource
               </Button>
             ))
             .otherwise(() => (
@@ -63,8 +68,8 @@ export const CreateDatasetForm: React.FC = () => {
           <NotificationSuccess
             show={showSuccess}
             setShow={setShowSuccess}
-            title="Dataset created"
-            text={`Successfully created the ${datasetCreated} dataset`}
+            title="Resource created"
+            text={`Successfully created the ${resourceCreated} resource`}
           />
         </div>
       </div>

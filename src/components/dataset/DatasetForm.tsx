@@ -110,7 +110,7 @@ export const DatasetForm: React.FC<{
             )}
           />
         </div>
-        </div>
+      </div>
       <div>
         <label
           htmlFor="authorEmail"

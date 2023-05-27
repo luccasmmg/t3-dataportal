@@ -23,6 +23,23 @@ export const ourFileRouter = {
     .onUploadComplete(({ file }) => {
       console.log("file url", file.url);
     }),
+  resourceUploader: f
+    // Set permissions and file types for this FileRoute
+    .fileTypes(["blob"])
+    .maxSize("16MB")
+    .middleware(async (req, res) => {
+      // This code runs on your server before upload
+      const session = await getServerAuthSession({ req, res });
+
+      // If you throw, the user will not be able to upload
+      if (!session) throw new Error("Unauthorized");
+
+      // Whatever is returned here is accessible in onUploadComplete as `metadata`
+      return {};
+    })
+    .onUploadComplete(({ file }) => {
+      console.log("file url", file.url);
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

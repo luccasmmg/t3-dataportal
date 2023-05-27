@@ -132,6 +132,19 @@ model Dataset {
   creatorId    String
   Creator      User @relation(fields: [creatorId], references: [id])
   groups       Group[]
+  resources    Resource[]
+}
+
+model Resource {
+  id           String   @id @default(cuid())
+  name         String
+  url          String
+  format       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  datasetId    String
+  Dataset      Dataset @relation(fields: [datasetId], references: [id])
+  private      Boolean  @default(true)
 }
 
 enum StripeSubscriptionStatus {

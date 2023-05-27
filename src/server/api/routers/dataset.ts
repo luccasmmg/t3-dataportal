@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { match, P } from "ts-pattern";
 import { z } from "zod";
 import { protectedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
-import { DatasetSchema } from '@schema/dataset.schema'
+import { DatasetSchema } from "@schema/dataset.schema";
 
 export const datasetRouter = createTRPCRouter({
   getAllDatasets: publicProcedure
@@ -27,7 +27,7 @@ export const datasetRouter = createTRPCRouter({
         });
       }
       return await ctx.prisma.dataset.findMany({
-        where: { portalId: portal.id, private: true },
+        where: { portalId: portal.id, private: false },
       });
     }),
   getAllDatasetsAdmin: protectedProcedure
@@ -70,6 +70,9 @@ export const datasetRouter = createTRPCRouter({
       }
       const dataset = await ctx.prisma.dataset.findFirst({
         where: { portalId: portal.id, name: input.datasetName, private: false },
+        include: {
+          resources: { where: { private: false } },
+        },
       });
       if (!dataset) {
         throw new TRPCError({
@@ -84,6 +87,9 @@ export const datasetRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.dataset.findFirst({
         where: { id: input.id },
+        include: {
+          resources: true,
+        },
       });
     }),
   createDataset: protectedProcedure
@@ -121,7 +127,7 @@ export const datasetRouter = createTRPCRouter({
       });
     }),
   deleteDatasets: protectedProcedure
-    .input(z.object({ ids: z.array(z.string())}))
+    .input(z.object({ ids: z.array(z.string()) }))
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.dataset.deleteMany({
         where: {
