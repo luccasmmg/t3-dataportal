@@ -1,4 +1,5 @@
 import z from "zod";
+import { ResourceSchema } from "./resource.schema";
 
 export const DatasetSchema = z.object({
   id: z.string().optional(),
@@ -19,6 +20,7 @@ export const DatasetSchema = z.object({
   portalId: z.string(),
   orgId: z.string(),
   creatorId: z.string(),
+  
 });
 
 export type DatasetInputs = z.infer<typeof DatasetSchema>;

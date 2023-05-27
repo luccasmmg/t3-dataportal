@@ -3,6 +3,7 @@ import { match, P } from "ts-pattern";
 import { z } from "zod";
 import { protectedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { DatasetSchema } from "@schema/dataset.schema";
+import { ResourceSchema } from "@schema/resource.schema";
 
 export const datasetRouter = createTRPCRouter({
   getAllDatasets: publicProcedure
@@ -15,7 +16,7 @@ export const datasetRouter = createTRPCRouter({
       },
     })
     .input(z.object({ portalName: z.string() }))
-    .output(z.array(DatasetSchema))
+    .output(z.array(DatasetSchema.extend({resources: z.array(ResourceSchema).optional()})))
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },
@@ -57,7 +58,7 @@ export const datasetRouter = createTRPCRouter({
       },
     })
     .input(z.object({ portalName: z.string(), datasetName: z.string() }))
-    .output(DatasetSchema)
+    .output(DatasetSchema.extend({ datasets: z.array(ResourceSchema).optional()}))
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },

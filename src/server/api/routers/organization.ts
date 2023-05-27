@@ -3,6 +3,7 @@ import { match, P } from "ts-pattern";
 import { z } from "zod";
 import { protectedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { OrganizationSchema } from "@schema/organization.schema";
+import { DatasetSchema } from "@schema/dataset.schema";
 
 export const organizationRouter = createTRPCRouter({
   getAllOrganizations: publicProcedure
@@ -15,7 +16,7 @@ export const organizationRouter = createTRPCRouter({
       },
     })
     .input(z.object({ portalName: z.string() }))
-    .output(z.array(OrganizationSchema))
+    .output(z.array(OrganizationSchema.extend({ datasets: z.array(DatasetSchema)})))
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },
@@ -28,7 +29,41 @@ export const organizationRouter = createTRPCRouter({
       }
       return await ctx.prisma.organization.findMany({
         where: { portalId: portal.id, private: false },
+        include: { datasets: { where: { private: false }}}
       });
+    }),
+  getOrganizationByName: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/{portalName}/organization/{organizationName}",
+        tags: ["organizations"],
+        summary: "Get a organization object inside a portal by name",
+      },
+    })
+    .input(z.object({ portalName: z.string(), organizationName: z.string() }))
+    .output(OrganizationSchema.extend({ datasets: z.array(DatasetSchema)}))
+    .query(async ({ ctx, input }) => {
+      const portal = await ctx.prisma.portal.findFirst({
+        where: { name: input.portalName },
+      });
+      if (!portal) {
+        throw new TRPCError({
+          message: "Portal not found",
+          code: "NOT_FOUND",
+        });
+      }
+      const organization = await ctx.prisma.organization.findFirst({
+        where: { portalId: portal.id, name: input.organizationName },
+        include: { datasets: { where: { private: false }}}
+      });
+      if (!organization) {
+        throw new TRPCError({
+          message: "Organization not found",
+          code: "NOT_FOUND",
+        });
+      }
+      return { ...organization };
     }),
   getAllOrganizationsAdmin: protectedProcedure
     .input(z.void())
@@ -46,38 +81,6 @@ export const organizationRouter = createTRPCRouter({
         });
       }
       return portal.organizations;
-    }),
-  getOrganizationByName: publicProcedure
-    .meta({
-      openapi: {
-        method: "GET",
-        path: "/{portalName}/organization/{organizationName}",
-        tags: ["organizations"],
-        summary: "Get a organization object inside a portal by name",
-      },
-    })
-    .input(z.object({ portalName: z.string(), organizationName: z.string() }))
-    .output(OrganizationSchema)
-    .query(async ({ ctx, input }) => {
-      const portal = await ctx.prisma.portal.findFirst({
-        where: { name: input.portalName },
-      });
-      if (!portal) {
-        throw new TRPCError({
-          message: "Portal not found",
-          code: "NOT_FOUND",
-        });
-      }
-      const organization = await ctx.prisma.organization.findFirst({
-        where: { portalId: portal.id, name: input.organizationName },
-      });
-      if (!organization) {
-        throw new TRPCError({
-          message: "Organization not found",
-          code: "NOT_FOUND",
-        });
-      }
-      return { ...organization };
     }),
   getOrganizationById: protectedProcedure
     .input(z.object({ id: z.string() }))
