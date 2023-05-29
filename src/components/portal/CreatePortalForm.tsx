@@ -7,6 +7,7 @@ import { Button } from "../shared/Button";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { ErrorAlert } from "@components/shared/Alerts";
+import { useSession } from "next-auth/react";
 
 export const CreatePortalForm: React.FC = () => {
   const { push } = useRouter();
@@ -15,10 +16,12 @@ export const CreatePortalForm: React.FC = () => {
     resolver: zodResolver(PortalSchema),
   });
 
+  const utils = api.useContext();
+  const { data: sessionData } = useSession();
   const createPortal = api.portal.createPortal.useMutation({
-    onSuccess: (data) => {
-      console.log(data);
-      void push("/dashboard");
+    onSuccess: async (data) => {
+      utils.portal.getPortalBySysAdminId.setData({sysAdminId: sessionData?.user.id}, {...data, groups: [], datasets: [], organizations: []})
+      await push("/dashboard");
     },
     onError: (error) => setErrorMessage(error.message),
   });
