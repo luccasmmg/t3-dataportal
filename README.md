@@ -4,12 +4,12 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 
 ## Roadmap
 
-- [ ] OpenAPI Setup
-- [ ] UploadThing Setup
-- [ ] CRUD For Organizations
-- [ ] CRUD For Groups
-- [ ] CRUD For Datasets
-- [ ] CRUD For Resources
+- [x] OpenAPI Setup
+- [x] UploadThing Setup
+- [x] CRUD For Organizations
+- [x] CRUD For Groups
+- [x] CRUD For Datasets
+- [x] CRUD For Resources
 - [ ] Search indexing
 - [ ] Custom fields on forms
 - [ ] Datastore maybe
