@@ -4,29 +4,25 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 
 ## Roadmap
 
-- [ ] Add a Stripe integration
-- [ ] Add a way for once a user has payed and authenticated, he can create a Data Portal
+- [ ] OpenAPI Setup
+- [ ] UploadThing Setup
 - [ ] CRUD For Organizations
-- [ ] OpenAPI For Organizations
+- [ ] CRUD For Groups
+- [ ] CRUD For Datasets
+- [ ] CRUD For Resources
+- [ ] Search indexing
+- [ ] Custom fields on forms
+- [ ] Datastore maybe
+- [ ] Frontend quickstart
+- [ ] TinaCMS or equivalent for frontends
+- [ ] Webhooks
+- [ ] Harvesters
 
 ## What will we need
 
 - [ ] A Vercel deployment
-- [ ] A Database on Planetscale
-- [ ] A Typesense instance, where every Data portal will have collections for
-  - packages
-  - resources
-  - organization
-  - themes
-  - showcases
-  - maybe content
-
-## Flow of creating an account
-
-- User pays
-- Login
-- The system see that he is not assigned as a sysadmin for any data-portal and then redirects to the Portal creation page
-- Once the user is a sysadmin he can add members to the portal and then these members to organizations
+- [ ] A Database(Ideally on Planetscale)
+- [ ] Github credentials for login
 
 ## How do I deploy this?
 
