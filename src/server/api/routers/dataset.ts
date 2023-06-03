@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { match, P } from "ts-pattern";
 import { z } from "zod";
 import { protectedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
-import { DatasetSchema } from "@schema/dataset.schema";
+import { DatasetSchema, SearchDatasetSchema } from "@schema/dataset.schema";
 import { ResourceSchema } from "@schema/resource.schema";
 
 export const datasetRouter = createTRPCRouter({
@@ -16,7 +16,11 @@ export const datasetRouter = createTRPCRouter({
       },
     })
     .input(z.object({ portalName: z.string() }))
-    .output(z.array(DatasetSchema.extend({resources: z.array(ResourceSchema).optional()})))
+    .output(
+      z.array(
+        DatasetSchema.extend({ resources: z.array(ResourceSchema).optional() })
+      )
+    )
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },
@@ -29,6 +33,56 @@ export const datasetRouter = createTRPCRouter({
       }
       return await ctx.prisma.dataset.findMany({
         where: { portalId: portal.id, private: false },
+      });
+    }),
+  searchDatasets: publicProcedure
+    .input(SearchDatasetSchema)
+    .query(async ({ ctx, input }) => {
+      console.log(input.orgs);
+      if (!input.queryString) {
+        return ctx.prisma.dataset.findMany({
+          where: {
+            portalId: input.portalId,
+            Organization: {
+              name: { in: input.orgs },
+            },
+          },
+        });
+      }
+      return await ctx.prisma.dataset.findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                search: input.queryString,
+              },
+            },
+            {
+              title: {
+                search: input.queryString,
+              },
+            },
+            {
+              description: {
+                search: input.queryString,
+              },
+            },
+            {
+              url: {
+                search: input.queryString,
+              },
+            },
+            {
+              authorEmail: {
+                search: input.queryString,
+              },
+            },
+          ],
+          portalId: input.portalId,
+          Organization: {
+            name: { in: input.orgs },
+          },
+        },
       });
     }),
   getAllDatasetsAdmin: protectedProcedure
@@ -58,7 +112,9 @@ export const datasetRouter = createTRPCRouter({
       },
     })
     .input(z.object({ portalName: z.string(), datasetName: z.string() }))
-    .output(DatasetSchema.extend({ datasets: z.array(ResourceSchema).optional()}))
+    .output(
+      DatasetSchema.extend({ datasets: z.array(ResourceSchema).optional() })
+    )
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },

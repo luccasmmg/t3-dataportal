@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -133,6 +134,8 @@ model Dataset {
   Creator      User @relation(fields: [creatorId], references: [id])
   groups       Group[]
   resources    Resource[]
+
+  @@fulltext([name, title, description, url, authorEmail])
 }
 
 model Resource {

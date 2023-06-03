@@ -1,3 +1,5 @@
+import { Portal } from "@headlessui/react";
+import { Prisma } from "@prisma/client";
 import z from "zod";
 
 export const PortalSchema = z.object({
@@ -14,3 +16,11 @@ export const PortalSchema = z.object({
 });
 
 export type PortalInputs = z.infer<typeof PortalSchema>;
+
+export type PortalFull = Prisma.PortalGetPayload<{
+  include: {
+    organizations: true;
+    groups: true;
+    datasets: true;
+  };
+}>;

@@ -11,8 +11,14 @@ export const DatasetSchema = z.object({
     ),
   title: z.string(),
   description: z.string().optional().nullable(),
-  url: z.string().url().optional().nullable(),
-  authorEmail: z.string().email().optional().nullable(),
+  url: z.preprocess(
+    (arg) => (arg === "" ? undefined : arg),
+    z.string().url().optional().nullable()
+  ),
+  authorEmail: z.preprocess(
+    (arg) => (arg === "" ? undefined : arg),
+    z.string().email().optional().nullable()
+  ),
   licenseId: z.string().optional().nullable(),
   licenseTitle: z.string().optional().nullable(),
   licenseUrl: z.string().optional().nullable(),
@@ -20,7 +26,17 @@ export const DatasetSchema = z.object({
   portalId: z.string(),
   orgId: z.string(),
   creatorId: z.string(),
-  
 });
 
+export const SearchDatasetSchema = z.object({
+  queryString: z.preprocess(
+    (arg) => (arg === "" ? undefined : arg),
+    z.string().optional()
+  ),
+  portalId: z.string(),
+  groups: z.array(z.string()).optional(),
+  orgs: z.preprocess((arg) => (arg === 'Filter by org' ? undefined : arg), z.string().optional()),
+});
+
+export type SearchDatasetInputs = z.infer<typeof SearchDatasetSchema>;
 export type DatasetInputs = z.infer<typeof DatasetSchema>;
