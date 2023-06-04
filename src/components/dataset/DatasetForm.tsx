@@ -1,10 +1,18 @@
 import { ErrorMessage } from "@hookform/error-message";
 import type { UseFormReturn } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { DatasetInputs } from "../../schema/dataset.schema";
 import { inputStyle, selectStyle } from "../../styles/formStyles";
 import { api } from "@utils/api";
 import { CustomSwitch } from "@components/shared/CustomSwitch";
 import { useSession } from "next-auth/react";
+import ReactSelect from "react-select";
+import Loading from "@components/shared/Loading";
+
+export type IOption = {
+  value: string;
+  label: string;
+};
 
 export const DatasetForm: React.FC<{
   formObj: UseFormReturn<DatasetInputs>;
@@ -21,10 +29,22 @@ export const DatasetForm: React.FC<{
     register,
     formState: { errors },
     control,
-    watch
+    watch,
   } = formObj;
+
+  if (!portalData || portalData === null) return <Loading />;
+
+  const groups = portalData.groups.map((group) => ({
+    value: group.id,
+    label: group.title,
+  }));
+
+  const getValue = (value?: string[]) => {
+    return value ? groups.filter((group) => value.includes(group.value)) : [];
+  };
+
   return (
-    <div className="grid grid-cols-1 items-start gap-2 sm:grid-cols-2">
+    <div className="grid grid-cols-1 items-end gap-2 sm:grid-cols-2">
       {sessionData && (
         <input
           type="text"
@@ -33,14 +53,12 @@ export const DatasetForm: React.FC<{
           {...register("creatorId")}
         />
       )}
-      {portalData && (
-        <input
-          type="text"
-          className="hidden"
-          defaultValue={portalData.id}
-          {...register("portalId")}
-        />
-      )}
+      <input
+        type="text"
+        className="hidden"
+        defaultValue={portalData.id}
+        {...register("portalId")}
+      />
       <div>
         <label
           htmlFor="name"
@@ -134,7 +152,7 @@ export const DatasetForm: React.FC<{
           />
         </div>
       </div>
-      <div className="sm:col-span-2">
+      <div>
         <label
           htmlFor="orgId"
           className="block w-fit text-sm font-medium text-gray-700"
@@ -159,27 +177,73 @@ export const DatasetForm: React.FC<{
             )}
           />
         </div>
-        <div className="py-2 sm:col-span-2">
-          <label
-            htmlFor="private"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Private
-          </label>
-          <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <CustomSwitch
-                defaultValue={false}
-                control={control}
-                name="private"
-              />
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-gray-500">
-                Checking this will mean that this organization and all its
-                children will not be available for the public consumption
-              </p>
-            </div>
+      </div>
+      <div>
+        <label
+          htmlFor="groupsId"
+          className="block w-fit text-sm font-medium text-gray-700"
+        >
+          Groups
+        </label>
+        <Controller
+          control={control}
+          name="groupsId"
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <ReactSelect
+              classNamePrefix="select"
+              placeholder="Select groups"
+              isMulti={true}
+              classNames={{
+                  control: () => "!rounded-md shadow-sm mt-1",
+              }}
+              styles={{
+                input: (base) => ({
+                  ...base,
+                  "input:focus": {
+                    boxShadow: "none",
+                  },
+                }),
+                control: (base, state) => ({
+                  ...base,
+                  "&:hover": { borderColor: 'none'},
+                  border: 'none',
+                  boxShadow: state.isFocused ? 'inset 0 0 0 2px #65a30d' : 'inset 0 0 0 1px #d1d5db',
+                })
+              }}
+              options={groups}
+              value={getValue(value)}
+              onChange={(newValue) => {
+                console.log(newValue)
+                onChange(
+                  value
+                    ? newValue.map((val) => val.value)
+                    : newValue.map((val) => val.value)
+                );
+              }}
+            />
+          )}
+        />
+      </div>
+      <div className="py-2 sm:col-span-2">
+        <label
+          htmlFor="private"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Private
+        </label>
+        <div className="flex items-start">
+          <div className="flex-shrink-0">
+            <CustomSwitch
+              defaultValue={false}
+              control={control}
+              name="private"
+            />
+          </div>
+          <div className="ml-3">
+            <p className="text-sm text-gray-500">
+              Checking this will mean that this organization and all its
+              children will not be available for the public consumption
+            </p>
           </div>
         </div>
       </div>

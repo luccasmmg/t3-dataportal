@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DatasetInputs, DatasetSchema } from "../../schema/dataset.schema";
+import { DatasetFull, DatasetInputs, DatasetSchema } from "../../schema/dataset.schema";
 import { api } from "../../utils/api";
 import { DatasetForm } from "./DatasetForm";
 import { Button } from "../shared/Button";
@@ -8,16 +8,16 @@ import { useState } from "react";
 import { ErrorAlert } from "@components/shared/Alerts";
 import NotificationSuccess from "@components/shared/Notifications";
 import { match } from "ts-pattern";
-import { Dataset } from "@prisma/client";
 
-export const EditDatasetForm: React.FC<{ dataset: Dataset }> = ({
+export const EditDatasetForm: React.FC<{ dataset: DatasetFull }> = ({
   dataset,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [datasetEdited, setOrgEdited] = useState("");
+  console.log(dataset)
   const formObj = useForm<DatasetInputs>({
-    defaultValues: dataset,
+    defaultValues: {...dataset, groupsId: dataset.groups.map(group => group.id)},
     resolver: zodResolver(DatasetSchema),
   });
 
@@ -29,7 +29,6 @@ export const EditDatasetForm: React.FC<{ dataset: Dataset }> = ({
     onError: (error) => setErrorMessage(error.message),
   });
 
-  console.log(formObj.watch());
   return (
     <>
       <form

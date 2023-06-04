@@ -38,7 +38,6 @@ export const datasetRouter = createTRPCRouter({
   searchDatasets: publicProcedure
     .input(SearchDatasetSchema)
     .query(async ({ ctx, input }) => {
-      console.log(input.orgs);
       if (!input.queryString) {
         return ctx.prisma.dataset.findMany({
           where: {
@@ -146,6 +145,8 @@ export const datasetRouter = createTRPCRouter({
         where: { id: input.id },
         include: {
           resources: true,
+          groups: true,
+          Organization: true,
         },
       });
     }),
@@ -159,12 +160,23 @@ export const datasetRouter = createTRPCRouter({
         },
       });
 
+      const groupsId = input.groupsId;
+      delete input.groupsId;
       return match(portal)
         .with(
           { id: P.select() },
           async (portalId) =>
             await ctx.prisma.dataset.create({
-              data: { ...input, portalId, creatorId: session.user.id },
+              data: {
+                ...input,
+                portalId,
+                creatorId: session.user.id,
+                groups: groupsId
+                  ? {
+                      connect: groupsId.map((id) => ({ id })),
+                    }
+                  : {},
+              },
             })
         )
         .otherwise(() => {
@@ -176,11 +188,20 @@ export const datasetRouter = createTRPCRouter({
   editDataset: protectedProcedure
     .input(DatasetSchema)
     .mutation(async ({ ctx, input }) => {
+      const groupsId = input.groupsId;
+      delete input.groupsId;
       await ctx.prisma.dataset.update({
         where: {
           id: input.id,
         },
-        data: { ...input },
+        data: {
+          ...input,
+          groups: groupsId
+            ? {
+                set: groupsId.map((id) => ({ id })),
+              }
+            : {},
+        },
       });
     }),
   deleteDatasets: protectedProcedure

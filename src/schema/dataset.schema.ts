@@ -1,5 +1,6 @@
 import z from "zod";
 import { ResourceSchema } from "./resource.schema";
+import { Prisma } from "@prisma/client";
 
 export const DatasetSchema = z.object({
   id: z.string().optional(),
@@ -25,6 +26,7 @@ export const DatasetSchema = z.object({
   private: z.boolean().default(true),
   portalId: z.string(),
   orgId: z.string(),
+  groupsId: z.array(z.string()).optional(),
   creatorId: z.string(),
 });
 
@@ -40,3 +42,10 @@ export const SearchDatasetSchema = z.object({
 
 export type SearchDatasetInputs = z.infer<typeof SearchDatasetSchema>;
 export type DatasetInputs = z.infer<typeof DatasetSchema>;
+export type DatasetFull = Prisma.DatasetGetPayload<{
+  include: {
+    Organization: true,
+    groups: true,
+    resources: true
+  }
+}>

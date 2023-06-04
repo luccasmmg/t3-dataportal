@@ -13,7 +13,7 @@ const CreateDatasetDashboard: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Dashboard current="datasets">
-        <div className="max-w-xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
             Create datasets
           </h1>
