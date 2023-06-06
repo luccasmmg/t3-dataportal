@@ -8,6 +8,7 @@ import { CustomSwitch } from "@components/shared/CustomSwitch";
 import { useSession } from "next-auth/react";
 import ReactSelect from "react-select";
 import Loading from "@components/shared/Loading";
+import MultiSelect from "@components/shared/MultiSelect";
 
 export type IOption = {
   value: string;
@@ -34,14 +35,10 @@ export const DatasetForm: React.FC<{
 
   if (!portalData || portalData === null) return <Loading />;
 
-  const groups = portalData.groups.map((group) => ({
+  const groupOptions = portalData.groups.map((group) => ({
     value: group.id,
     label: group.title,
   }));
-
-  const getValue = (value?: string[]) => {
-    return value ? groups.filter((group) => value.includes(group.value)) : [];
-  };
 
   return (
     <div className="grid grid-cols-1 items-end gap-2 sm:grid-cols-2">
@@ -188,41 +185,8 @@ export const DatasetForm: React.FC<{
         <Controller
           control={control}
           name="groupsId"
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <ReactSelect
-              classNamePrefix="select"
-              placeholder="Select groups"
-              isMulti={true}
-              classNames={{
-                  control: () => "!rounded-md shadow-sm mt-1",
-              }}
-              styles={{
-                input: (base) => ({
-                  ...base,
-                  "input:focus": {
-                    boxShadow: "none",
-                  },
-                }),
-                control: (base, state) => ({
-                  ...base,
-                  "&:hover": { borderColor: 'none'},
-                  border: 'none',
-                  boxShadow: state.isFocused ? 'inset 0 0 0 2px #65a30d' : 'inset 0 0 0 1px #d1d5db',
-                })
-              }}
-              options={groups}
-              value={getValue(value)}
-              onChange={(newValue) => {
-                console.log(newValue)
-                onChange(
-                  value
-                    ? newValue.map((val) => val.value)
-                    : newValue.map((val) => val.value)
-                );
-              }}
-            />
-          )}
-        />
+          render={({ field: { onChange, value }}) => 
+          (<MultiSelect onChange={onChange} options={groupOptions} value={value} />)} />
       </div>
       <div className="py-2 sm:col-span-2">
         <label

@@ -42,6 +42,7 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
       setIndeterminate(false);
     }
   }
+  console.log(datasetSearch)
   return (
     <>
       <SearchDatasetForm

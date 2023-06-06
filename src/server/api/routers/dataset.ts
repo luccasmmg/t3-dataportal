@@ -38,10 +38,23 @@ export const datasetRouter = createTRPCRouter({
   searchDatasets: publicProcedure
     .input(SearchDatasetSchema)
     .query(async ({ ctx, input }) => {
+      console.log(input)
+      if (!input.queryString && (!input.groups || input.groups.length === 0) && !input.orgs) {
+        return ctx.prisma.dataset.findMany({
+          where: {
+            portalId: input.portalId,
+          },
+        });
+      }
       if (!input.queryString) {
         return ctx.prisma.dataset.findMany({
           where: {
             portalId: input.portalId,
+            groups: {
+              some: {
+                name: { in: input.groups },
+              },
+            },
             Organization: {
               name: { in: input.orgs },
             },
@@ -78,6 +91,11 @@ export const datasetRouter = createTRPCRouter({
             },
           ],
           portalId: input.portalId,
+          groups: {
+            some: {
+              name: { in: input.groups },
+            },
+          },
           Organization: {
             name: { in: input.orgs },
           },
