@@ -35,21 +35,133 @@ export const datasetRouter = createTRPCRouter({
         where: { portalId: portal.id, private: false },
       });
     }),
-  searchDatasets: publicProcedure
-    .input(SearchDatasetSchema)
+  searchDatasetsPublic: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/{portalName}/datasets/search",
+        tags: ["datasets"],
+        summary: "Search the datasets inside a portal",
+      },
+    })
+    .input(
+      z.object({
+        queryString: z.preprocess(
+          (arg) => (arg === "" ? undefined : arg),
+          z.string().optional()
+        ),
+        portalName: z.string(),
+        groups: z.string().optional(),
+        orgs: z.preprocess(
+          (arg) => (arg === "Filter by org" ? undefined : arg),
+          z.string().optional()
+        ),
+      })
+    )
+    .output(
+      z.array(
+        DatasetSchema.extend({ resources: z.array(ResourceSchema).optional() })
+      )
+    )
     .query(async ({ ctx, input }) => {
-      console.log(input)
-      if (!input.queryString && (!input.groups || input.groups.length === 0) && !input.orgs) {
+      const _groups = input.groups
+        ? input.groups.split(",").map((group) => group.trim())
+        : [];
+      if (
+        !input.queryString &&
+        (!input.groups || _groups.length === 0) &&
+        !input.orgs
+      ) {
         return ctx.prisma.dataset.findMany({
           where: {
-            portalId: input.portalId,
+            Portal: {
+              name: input.portalName,
+            },
           },
         });
       }
       if (!input.queryString) {
         return ctx.prisma.dataset.findMany({
           where: {
-            portalId: input.portalId,
+            Portal: {
+              name: input.portalName,
+            },
+            groups: {
+              some: {
+                name: { in: _groups },
+              },
+            },
+            Organization: {
+              name: { in: input.orgs },
+            },
+          },
+        });
+      }
+      return await ctx.prisma.dataset.findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                search: input.queryString,
+              },
+            },
+            {
+              title: {
+                search: input.queryString,
+              },
+            },
+            {
+              description: {
+                search: input.queryString,
+              },
+            },
+            {
+              url: {
+                search: input.queryString,
+              },
+            },
+            {
+              authorEmail: {
+                search: input.queryString,
+              },
+            },
+          ],
+          Portal: {
+            name: input.portalName,
+          },
+          groups: {
+            some: {
+              name: { in: _groups },
+            },
+          },
+          Organization: {
+            name: { in: input.orgs },
+          },
+        },
+      });
+    }),
+  searchDatasets: protectedProcedure
+    .input(SearchDatasetSchema)
+    .query(async ({ ctx, input }) => {
+      if (
+        !input.queryString &&
+        (!input.groups || input.groups.length === 0) &&
+        !input.orgs
+      ) {
+        return ctx.prisma.dataset.findMany({
+          where: {
+            Portal: {
+              name: input.portalName,
+            },
+          },
+        });
+      }
+      if (!input.queryString) {
+        return ctx.prisma.dataset.findMany({
+          where: {
+            Portal: {
+              name: input.portalName,
+            },
             groups: {
               some: {
                 name: { in: input.groups },
@@ -90,7 +202,9 @@ export const datasetRouter = createTRPCRouter({
               },
             },
           ],
-          portalId: input.portalId,
+          Portal: {
+            name: input.portalName,
+          },
           groups: {
             some: {
               name: { in: input.groups },

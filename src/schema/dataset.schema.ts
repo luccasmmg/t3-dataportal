@@ -35,7 +35,7 @@ export const SearchDatasetSchema = z.object({
     (arg) => (arg === "" ? undefined : arg),
     z.string().optional()
   ),
-  portalId: z.string(),
+  portalName: z.string(),
   groups: z.array(z.string()).optional(),
   orgs: z.preprocess((arg) => (arg === 'Filter by org' ? undefined : arg), z.string().optional()),
 });

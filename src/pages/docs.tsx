@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   // Serve Swagger UI with our OpenAPI schema
   return (
     <Layout>
-      <div className="my-16">
+      <div className="my-16 px-6 lg:px-8">
         <SwaggerUI url="/api/openapi.json" />;
       </div>
     </Layout>

@@ -17,4 +17,5 @@
 /* Aligning swagger elements to navbar elements */
 .swagger-ui .wrapper {
   padding: 0px !important;
+  max-width: 100vw;
 }

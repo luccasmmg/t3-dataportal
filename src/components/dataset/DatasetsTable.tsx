@@ -12,7 +12,7 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
   const [indeterminate, setIndeterminate] = useState(false);
   const [selectedDatasets, setSelectedDatasets] = useState<Dataset[]>([]);
   const [datasetSearch, setDatasetSearch] = useState<SearchDatasetInputs>({
-    portalId: portal.id,
+    portalName: portal.name,
   });
   const { data: datasets, isLoading: isLoadingDatasets } =
     api.dataset.searchDatasets.useQuery(datasetSearch);

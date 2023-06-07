@@ -14,7 +14,7 @@ export const SearchDatasetForm: React.FC<{
   portal: PortalFull;
 }> = ({ setDatasetSearch, portal }) => {
   const { register, watch, control, trigger } = useForm<SearchDatasetInputs>({
-    defaultValues: { portalId: portal.id },
+    defaultValues: { portalName: portal.name },
     resolver: zodResolver(SearchDatasetSchema),
   });
 
