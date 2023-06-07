@@ -10,11 +10,11 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 - [x] CRUD For Groups
 - [x] CRUD For Datasets
 - [x] CRUD For Resources
-- [ ] Search indexing
-- [ ] Custom fields on forms
-- [ ] Datastore maybe
+- [x] Search indexing
 - [ ] Frontend quickstart
 - [ ] TinaCMS or equivalent for frontends
+- [ ] Custom fields on forms
+- [ ] Datastore maybe
 - [ ] Webhooks
 - [ ] Harvesters
 

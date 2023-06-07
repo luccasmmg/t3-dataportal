@@ -66,10 +66,10 @@ export const datasetRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const _groups = input.groups
         ? input.groups.split(",").map((group) => group.trim())
-        : [];
+        : undefined;
       if (
         !input.queryString &&
-        (!input.groups || _groups.length === 0) &&
+        (!input.groups || !_groups) &&
         !input.orgs
       ) {
         return ctx.prisma.dataset.findMany({
