@@ -20,16 +20,19 @@ export const CreatePortalForm: React.FC = () => {
   const { data: sessionData } = useSession();
   const createPortal = api.portal.createPortal.useMutation({
     onSuccess: async (data) => {
-      utils.portal.getPortalBySysAdminId.setData({sysAdminId: sessionData?.user.id}, {...data, groups: [], datasets: [], organizations: []})
+      utils.portal.getPortalBySysAdminId.setData(
+        { sysAdminId: sessionData?.user.id },
+        { ...data, groups: [], datasets: [], organizations: [] }
+      );
       await push("/dashboard");
     },
     onError: (error) => setErrorMessage(error.message),
   });
 
   return (
-    <div className="rounded-xl border border-lime-600 p-4">
+    <div className="rounded-xl border border-emerald-600 p-4">
       <div className="flex items-start">
-        <h3 className="block text-xl font-semibold text-lime-600">
+        <h3 className="block text-xl font-semibold text-emerald-600">
           Portal Form
         </h3>
       </div>
@@ -38,7 +41,7 @@ export const CreatePortalForm: React.FC = () => {
       >
         <PortalForm formObj={formObj} />
         <div className="col-span-full">
-          <Button type="submit" color="lime" className="mt-8 w-full py-4">
+          <Button type="submit" color="emerald" className="mt-8 w-full py-4">
             Create portal
           </Button>
         </div>

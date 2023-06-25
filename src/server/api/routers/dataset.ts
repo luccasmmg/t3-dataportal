@@ -67,11 +67,7 @@ export const datasetRouter = createTRPCRouter({
       const _groups = input.groups
         ? input.groups.split(",").map((group) => group.trim())
         : undefined;
-      if (
-        !input.queryString &&
-        (!input.groups || !_groups) &&
-        !input.orgs
-      ) {
+      if (!input.queryString && (!input.groups || !_groups) && !input.orgs) {
         return ctx.prisma.dataset.findMany({
           where: {
             Portal: {

@@ -27,7 +27,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
       isMulti={true}
       classNames={{
         control: () => "!rounded-md shadow-sm mt-1",
-        placeholder: () => "!text-black text-sm"
+        placeholder: () => "!text-black text-sm",
       }}
       styles={{
         input: (base) => ({

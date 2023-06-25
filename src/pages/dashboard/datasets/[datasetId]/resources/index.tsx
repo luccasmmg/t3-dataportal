@@ -69,7 +69,7 @@ const ResourcesDashboard: NextPage<{ datasetId: string }> = ({ datasetId }) => {
             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
               <Link
                 href={`/dashboard/datasets/${datasetData.id}/resources/createresource`}
-                className="block rounded-md bg-lime-600 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600"
+                className="block rounded-md bg-emerald-600 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
               >
                 Add resource
               </Link>
@@ -110,7 +110,7 @@ const ResourcesDashboard: NextPage<{ datasetId: string }> = ({ datasetId }) => {
                           >
                             <input
                               type="checkbox"
-                              className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-lime-600 focus:ring-lime-600"
+                              className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
                               ref={checkbox}
                               checked={checked}
                               onChange={toggleAll}
@@ -166,11 +166,11 @@ const ResourcesDashboard: NextPage<{ datasetId: string }> = ({ datasetId }) => {
                           >
                             <td className="relative px-7 sm:w-12 sm:px-6">
                               {selectedResources.includes(resource) && (
-                                <div className="absolute inset-y-0 left-0 w-0.5 bg-lime-600" />
+                                <div className="absolute inset-y-0 left-0 w-0.5 bg-emerald-600" />
                               )}
                               <input
                                 type="checkbox"
-                                className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-lime-600 focus:ring-lime-600"
+                                className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
                                 value={resource.id}
                                 checked={selectedResources.includes(resource)}
                                 onChange={(e) =>
@@ -202,7 +202,7 @@ const ResourcesDashboard: NextPage<{ datasetId: string }> = ({ datasetId }) => {
                             <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
                               <Link
                                 href={`/dashboard/datasets/${datasetData.id}/resources/edit/${resource.id}`}
-                                className="text-lime-600 hover:text-lime-900"
+                                className="text-emerald-600 hover:text-emerald-900"
                               >
                                 Edit
                                 <span className="sr-only">, {resource.id}</span>

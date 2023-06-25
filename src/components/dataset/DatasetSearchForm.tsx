@@ -8,6 +8,7 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PortalFull } from "@schema/portal.schema";
 import MultiSelect from "@components/shared/MultiSelect";
+import { classNames } from "@utils/classnames";
 
 export const SearchDatasetForm: React.FC<{
   setDatasetSearch: Dispatch<SetStateAction<SearchDatasetInputs>>;
@@ -36,7 +37,11 @@ export const SearchDatasetForm: React.FC<{
           Search datasets
         </label>
         <div className="mt-1 w-full">
-          <input className={inputStyle} {...register("queryString")} />
+          <input
+            className={classNames(inputStyle, "pl-3 placeholder:text-gray-900")}
+            placeholder="Search text"
+            {...register("queryString")}
+          />
         </div>
       </div>
       <div className="mt-1 w-full">

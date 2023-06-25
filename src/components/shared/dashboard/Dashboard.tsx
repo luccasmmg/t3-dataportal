@@ -124,7 +124,7 @@ export const Dashboard: React.FC<{
                     </div>
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-lime-600 px-6 pb-2">
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-emerald-600 px-6 pb-2">
                     <div className="flex h-16 shrink-0 items-center">
                       <Link href="/">
                         <img
@@ -144,8 +144,8 @@ export const Dashboard: React.FC<{
                                   href={item.href}
                                   className={classNames(
                                     item.id === current
-                                      ? "bg-lime-700 text-white"
-                                      : "text-lime-200 hover:bg-lime-700 hover:text-white",
+                                      ? "bg-emerald-700 text-white"
+                                      : "text-emerald-200 hover:bg-emerald-700 hover:text-white",
                                     "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                                   )}
                                 >
@@ -153,7 +153,7 @@ export const Dashboard: React.FC<{
                                     className={classNames(
                                       item.id === current
                                         ? "text-white"
-                                        : "text-lime-200 group-hover:text-white",
+                                        : "text-emerald-200 group-hover:text-white",
                                       "h-6 w-6 shrink-0"
                                     )}
                                     aria-hidden="true"
@@ -176,7 +176,7 @@ export const Dashboard: React.FC<{
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-lime-600 px-6">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-emerald-600 px-6">
             <div className="flex h-16 shrink-0 items-center">
               <Link href="/">
                 <img
@@ -196,8 +196,8 @@ export const Dashboard: React.FC<{
                           href={item.href}
                           className={classNames(
                             item.id === current
-                              ? "bg-lime-700 text-white"
-                              : "text-lime-200 hover:bg-lime-700 hover:text-white",
+                              ? "bg-emerald-700 text-white"
+                              : "text-emerald-200 hover:bg-emerald-700 hover:text-white",
                             "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                           )}
                         >
@@ -205,7 +205,7 @@ export const Dashboard: React.FC<{
                             className={classNames(
                               item.id === current
                                 ? "text-white"
-                                : "text-lime-200 group-hover:text-white",
+                                : "text-emerald-200 group-hover:text-white",
                               "h-6 w-6 shrink-0"
                             )}
                             aria-hidden="true"
@@ -219,11 +219,11 @@ export const Dashboard: React.FC<{
                 <li className="-mx-6 mt-auto">
                   <Link
                     href="#"
-                    className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-lime-700"
+                    className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-emerald-700"
                   >
                     {sessionData.user.image && (
                       <img
-                        className="h-8 w-8 rounded-full bg-lime-700"
+                        className="h-8 w-8 rounded-full bg-emerald-700"
                         src={sessionData.user.image}
                         alt=""
                       />
@@ -243,10 +243,10 @@ export const Dashboard: React.FC<{
           </div>
         </div>
 
-        <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-lime-600 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+        <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-emerald-600 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
           <button
             type="button"
-            className="-m-2.5 p-2.5 text-lime-200 lg:hidden"
+            className="-m-2.5 p-2.5 text-emerald-200 lg:hidden"
             onClick={() => setSidebarOpen(true)}
           >
             <span className="sr-only">Open sidebar</span>
@@ -259,7 +259,7 @@ export const Dashboard: React.FC<{
             <span className="sr-only">Your profile</span>
             {sessionData.user.image && (
               <img
-                className="h-8 w-8 rounded-full bg-lime-700"
+                className="h-8 w-8 rounded-full bg-emerald-700"
                 src={sessionData.user.image}
                 alt=""
               />

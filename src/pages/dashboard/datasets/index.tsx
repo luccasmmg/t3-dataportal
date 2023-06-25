@@ -42,7 +42,7 @@ const DatasetsDashboard: NextPage = () => {
             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
               <Link
                 href="/dashboard/datasets/createdataset"
-                className="block rounded-md bg-lime-600 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600"
+                className="block rounded-md bg-emerald-600 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
               >
                 Add dataset
               </Link>

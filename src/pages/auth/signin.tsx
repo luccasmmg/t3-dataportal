@@ -30,7 +30,7 @@ const SignInPage: NextPage<{
             <div>
               <img
                 className="h-12 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=lime&shade=600"
+                src="https://tailwindui.com/img/logos/mark.svg?color=emerald&shade=600"
                 alt="Your Company"
               />
               <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">

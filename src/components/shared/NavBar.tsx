@@ -28,7 +28,7 @@ export function NavBar({ dashboard = false }: { dashboard?: boolean }) {
             <span className="sr-only">Your Company</span>
             <img
               className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=lime&shade=600"
+              src="https://tailwindui.com/img/logos/mark.svg?color=emerald&shade=600"
               alt=""
             />
           </a>
@@ -88,7 +88,7 @@ export function NavBar({ dashboard = false }: { dashboard?: boolean }) {
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=lime&shade=600"
+                src="https://tailwindui.com/img/logos/mark.svg?color=emerald&shade=600"
                 alt=""
               />
             </a>
@@ -186,7 +186,7 @@ export function LoginDropdown({
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full items-center justify-center gap-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+        <Menu.Button className="inline-flex w-full items-center justify-center gap-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-100">
           {avatar ? (
             <img
               className="inline-block h-8 w-8 rounded-full"

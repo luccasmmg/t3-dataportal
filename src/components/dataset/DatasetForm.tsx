@@ -6,7 +6,6 @@ import { inputStyle, selectStyle } from "../../styles/formStyles";
 import { api } from "@utils/api";
 import { CustomSwitch } from "@components/shared/CustomSwitch";
 import { useSession } from "next-auth/react";
-import ReactSelect from "react-select";
 import Loading from "@components/shared/Loading";
 import MultiSelect from "@components/shared/MultiSelect";
 
@@ -185,8 +184,14 @@ export const DatasetForm: React.FC<{
         <Controller
           control={control}
           name="groupsId"
-          render={({ field: { onChange, value }}) => 
-          (<MultiSelect onChange={onChange} options={groupOptions} value={value} />)} />
+          render={({ field: { onChange, value } }) => (
+            <MultiSelect
+              onChange={onChange}
+              options={groupOptions}
+              value={value}
+            />
+          )}
+        />
       </div>
       <div className="py-2 sm:col-span-2">
         <label

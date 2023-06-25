@@ -27,7 +27,7 @@ const CreateGroupDashboard: NextPage<{ groupId: string }> = ({ groupId }) => {
       </Head>
       <Dashboard current="groups">
         <div className="max-w-xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold tracking-tight text-lime-900 sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-emerald-900 sm:text-3xl">
             {groupData.title}
           </h1>
           <div className="sm:flex sm:items-center">

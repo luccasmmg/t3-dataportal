@@ -16,7 +16,9 @@ export const organizationRouter = createTRPCRouter({
       },
     })
     .input(z.object({ portalName: z.string() }))
-    .output(z.array(OrganizationSchema.extend({ datasets: z.array(DatasetSchema)})))
+    .output(
+      z.array(OrganizationSchema.extend({ datasets: z.array(DatasetSchema) }))
+    )
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },
@@ -29,7 +31,7 @@ export const organizationRouter = createTRPCRouter({
       }
       return await ctx.prisma.organization.findMany({
         where: { portalId: portal.id, private: false },
-        include: { datasets: { where: { private: false }}}
+        include: { datasets: { where: { private: false } } },
       });
     }),
   getOrganizationByName: publicProcedure
@@ -42,7 +44,7 @@ export const organizationRouter = createTRPCRouter({
       },
     })
     .input(z.object({ portalName: z.string(), organizationName: z.string() }))
-    .output(OrganizationSchema.extend({ datasets: z.array(DatasetSchema)}))
+    .output(OrganizationSchema.extend({ datasets: z.array(DatasetSchema) }))
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
         where: { name: input.portalName },
@@ -55,7 +57,7 @@ export const organizationRouter = createTRPCRouter({
       }
       const organization = await ctx.prisma.organization.findFirst({
         where: { portalId: portal.id, name: input.organizationName },
-        include: { datasets: { where: { private: false }}}
+        include: { datasets: { where: { private: false } } },
       });
       if (!organization) {
         throw new TRPCError({

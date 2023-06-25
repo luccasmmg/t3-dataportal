@@ -46,12 +46,16 @@ export const EditOrganizationForm: React.FC<{ org: Organization }> = ({
         <div className="col-span-full">
           {match(editOrganization.isLoading)
             .with(false, () => (
-              <Button type="submit" color="lime" className="mt-8 w-full py-4">
+              <Button
+                type="submit"
+                color="emerald"
+                className="mt-8 w-full py-4"
+              >
                 Edit Org
               </Button>
             ))
             .otherwise(() => (
-              <Button disabled color="lime" className="mt-8 w-full py-4">
+              <Button disabled color="emerald" className="mt-8 w-full py-4">
                 <div className="loader mb-4 h-4 w-4 rounded-full border-4 border-t-4 border-gray-200 ease-linear"></div>
               </Button>
             ))}

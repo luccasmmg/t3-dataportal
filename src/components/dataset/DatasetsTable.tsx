@@ -42,13 +42,9 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
       setIndeterminate(false);
     }
   }
-  console.log(datasetSearch)
   return (
     <>
-      <SearchDatasetForm
-        setDatasetSearch={setDatasetSearch}
-        portal={portal}
-      />
+      <SearchDatasetForm setDatasetSearch={setDatasetSearch} portal={portal} />
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           <div className="relative">
@@ -78,7 +74,7 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
                     <th scope="col" className="relative px-7 sm:w-12 sm:px-6">
                       <input
                         type="checkbox"
-                        className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-lime-600 focus:ring-lime-600"
+                        className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
                         ref={checkbox}
                         checked={checked}
                         onChange={toggleAll}
@@ -112,18 +108,6 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Last Updated
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Created at
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
                       Resources
                     </th>
                     <th
@@ -148,11 +132,11 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
                         >
                           <td className="relative px-7 sm:w-12 sm:px-6">
                             {selectedDatasets.includes(dataset) && (
-                              <div className="absolute inset-y-0 left-0 w-0.5 bg-lime-600" />
+                              <div className="absolute inset-y-0 left-0 w-0.5 bg-emerald-600" />
                             )}
                             <input
                               type="checkbox"
-                              className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-lime-600 focus:ring-lime-600"
+                              className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
                               value={dataset.name}
                               checked={selectedDatasets.includes(dataset)}
                               onChange={(e) =>
@@ -169,7 +153,7 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {dataset.name}
                           </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          <td className="px-3 py-4 text-sm text-gray-500">
                             {dataset.title}
                           </td>
                           <td className="px-3 py-4 text-sm text-gray-500">
@@ -178,16 +162,10 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
                           <td className="px-3 py-4 text-sm text-gray-500">
                             {dataset.private ? "Private" : "Public"}
                           </td>
-                          <td className="px-3 py-4 text-sm text-gray-500">
-                            {dataset.updatedAt.toLocaleString()}
-                          </td>
-                          <td className="px-3 py-4 text-sm text-gray-500">
-                            {dataset.createdAt.toLocaleString()}
-                          </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm font-medium">
                             <Link
                               href={`/dashboard/datasets/${dataset.id}/resources`}
-                              className="text-lime-600 hover:text-lime-900"
+                              className="text-emerald-600 hover:text-emerald-900"
                             >
                               Resources
                               <span className="sr-only">, {dataset.name}</span>
@@ -196,7 +174,7 @@ export const DatasetTable: React.FC<{ portal: PortalFull }> = ({ portal }) => {
                           <td className="whitespace-nowrap px-3 py-4 text-sm font-medium">
                             <Link
                               href={`/dashboard/datasets/edit/${dataset.id}`}
-                              className="text-lime-600 hover:text-lime-900"
+                              className="text-emerald-600 hover:text-emerald-900"
                             >
                               Edit
                               <span className="sr-only">, {dataset.name}</span>

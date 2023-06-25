@@ -37,15 +37,18 @@ export const SearchDatasetSchema = z.object({
   ),
   portalName: z.string(),
   groups: z.array(z.string()).optional(),
-  orgs: z.preprocess((arg) => (arg === 'Filter by org' ? undefined : arg), z.string().optional()),
+  orgs: z.preprocess(
+    (arg) => (arg === "Filter by org" ? undefined : arg),
+    z.string().optional()
+  ),
 });
 
 export type SearchDatasetInputs = z.infer<typeof SearchDatasetSchema>;
 export type DatasetInputs = z.infer<typeof DatasetSchema>;
 export type DatasetFull = Prisma.DatasetGetPayload<{
   include: {
-    Organization: true,
-    groups: true,
-    resources: true
-  }
-}>
+    Organization: true;
+    groups: true;
+    resources: true;
+  };
+}>;

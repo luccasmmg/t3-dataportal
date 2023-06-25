@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DatasetFull, DatasetInputs, DatasetSchema } from "../../schema/dataset.schema";
+import {
+  DatasetFull,
+  DatasetInputs,
+  DatasetSchema,
+} from "../../schema/dataset.schema";
 import { api } from "../../utils/api";
 import { DatasetForm } from "./DatasetForm";
 import { Button } from "../shared/Button";
@@ -15,9 +19,12 @@ export const EditDatasetForm: React.FC<{ dataset: DatasetFull }> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [datasetEdited, setOrgEdited] = useState("");
-  console.log(dataset)
+  console.log(dataset);
   const formObj = useForm<DatasetInputs>({
-    defaultValues: {...dataset, groupsId: dataset.groups.map(group => group.id)},
+    defaultValues: {
+      ...dataset,
+      groupsId: dataset.groups.map((group) => group.id),
+    },
     resolver: zodResolver(DatasetSchema),
   });
 
@@ -42,12 +49,16 @@ export const EditDatasetForm: React.FC<{ dataset: DatasetFull }> = ({
         <div className="col-span-full">
           {match(editDataset.isLoading)
             .with(false, () => (
-              <Button type="submit" color="lime" className="mt-8 w-full py-4">
+              <Button
+                type="submit"
+                color="emerald"
+                className="mt-8 w-full py-4"
+              >
                 Edit Dataset
               </Button>
             ))
             .otherwise(() => (
-              <Button disabled color="lime" className="mt-8 w-full py-4">
+              <Button disabled color="emerald" className="mt-8 w-full py-4">
                 <div className="loader mb-4 h-4 w-4 rounded-full border-4 border-t-4 border-gray-200 ease-linear"></div>
               </Button>
             ))}
