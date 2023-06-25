@@ -4,6 +4,8 @@ import { z } from "zod";
 import { protectedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { DatasetSchema, SearchDatasetSchema } from "@schema/dataset.schema";
 import { ResourceSchema } from "@schema/resource.schema";
+import { OrganizationSchema } from "@schema/organization.schema";
+import { GroupSchema } from "@schema/group.schema";
 
 export const datasetRouter = createTRPCRouter({
   getAllDatasets: publicProcedure
@@ -60,7 +62,11 @@ export const datasetRouter = createTRPCRouter({
     )
     .output(
       z.array(
-        DatasetSchema.extend({ resources: z.array(ResourceSchema).optional() })
+        DatasetSchema.extend({
+          resources: z.array(ResourceSchema).optional(),
+          Organization: OrganizationSchema,
+          groups: z.array(GroupSchema).optional(),
+        })
       )
     )
     .query(async ({ ctx, input }) => {
@@ -73,6 +79,11 @@ export const datasetRouter = createTRPCRouter({
             Portal: {
               name: input.portalName,
             },
+          },
+          include: {
+            Organization: true,
+            groups: true,
+            resources: true,
           },
         });
       }
@@ -90,6 +101,11 @@ export const datasetRouter = createTRPCRouter({
             Organization: {
               name: { in: input.orgs },
             },
+          },
+          include: {
+            Organization: true,
+            groups: true,
+            resources: true,
           },
         });
       }
@@ -133,6 +149,11 @@ export const datasetRouter = createTRPCRouter({
           Organization: {
             name: { in: input.orgs },
           },
+        },
+        include: {
+          Organization: true,
+          groups: true,
+          resources: true,
         },
       });
     }),
