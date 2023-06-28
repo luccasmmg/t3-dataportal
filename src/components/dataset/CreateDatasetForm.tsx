@@ -21,6 +21,7 @@ export const CreateDatasetForm: React.FC = () => {
     onSuccess: () => {
       setShowSuccess(true);
       formObj.reset();
+      setErrorMessage(null);
       setTimeout(() => setShowSuccess(false), 5000);
     },
     onError: (error) => setErrorMessage(error.message),

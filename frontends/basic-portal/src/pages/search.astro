@@ -1,0 +1,19 @@
+---
+import { SITE } from '~/config.mjs';
+import Layout from '~/layouts/PageLayout.astro';
+import SearchPage from '~/components/search/SearchPage';
+import ky from 'ky';
+import type { Dataset } from '~/types';
+
+const meta = {
+  title: SITE.title,
+  description: SITE.description,
+  dontUseTitleTemplate: true,
+};
+
+const datasets: Dataset[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/datasets/search').json();
+---
+
+<Layout {meta}>
+  <SearchPage client:load datasets={datasets} />
+</Layout>
