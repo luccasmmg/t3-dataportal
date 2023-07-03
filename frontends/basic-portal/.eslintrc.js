@@ -9,7 +9,9 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  rules: {},
+  rules: {
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+  },
   overrides: [
     {
       files: ['*.js'],

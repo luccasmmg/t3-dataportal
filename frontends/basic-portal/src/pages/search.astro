@@ -3,7 +3,7 @@ import { SITE } from '~/config.mjs';
 import Layout from '~/layouts/PageLayout.astro';
 import SearchPage from '~/components/search/SearchPage';
 import ky from 'ky';
-import type { Dataset } from '~/types';
+import type { Dataset, Group, Organization } from '~/types';
 
 const meta = {
   title: SITE.title,
@@ -12,8 +12,10 @@ const meta = {
 };
 
 const datasets: Dataset[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/datasets/search').json();
+const groups: Group[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/group').json();
+const organizations: Organization[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/organization').json();
 ---
 
 <Layout {meta}>
-  <SearchPage client:load datasets={datasets} />
+  <SearchPage client:load datasets={datasets} groups={groups} organizations={organizations} />
 </Layout>

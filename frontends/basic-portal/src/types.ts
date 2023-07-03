@@ -94,4 +94,6 @@ export interface Portal {
 export interface SearchInputs {
   queryString: string;
   portalName: string;
+  groups: string[];
+  organizations: string[];
 }

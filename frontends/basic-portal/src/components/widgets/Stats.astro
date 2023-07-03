@@ -1,7 +1,7 @@
 ---
 interface Item {
   name: string;
-  value: string;
+  value: string | number;
 }
 
 export interface Props {
@@ -24,9 +24,7 @@ const {
     (title || subtitle || highlight) && (
       <div class="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
         {highlight && (
-          <p class="text-base text-primary dark:text-blue-200 font-semibold tracking-wide uppercase">
-            {highlight}
-          </p>
+          <p class="text-base text-primary dark:text-blue-200 font-semibold tracking-wide uppercase">{highlight}</p>
         )}
         {title && (
           <h2
@@ -40,10 +38,10 @@ const {
       </div>
     )
   }
-  <div class="grid grid-cols-2 row-gap-8 md:grid-cols-4">
+  <div class="grid grid-cols-2 row-gap-8 md:grid-cols-3">
     {
       items.map(({ name, value }) => (
-        <div class="text-center md:border-r md:last:border-none dark:md:border-slate-500 mb-12 md:mb-0">
+        <div key={value} class="text-center md:border-r md:last:border-none dark:md:border-slate-500 mb-12 md:mb-0">
           <div class="text-[2.6rem] font-bold lg:text-5xl xl:text-6xl text-primary dark:text-blue-600 font-heading">
             {value}
           </div>
