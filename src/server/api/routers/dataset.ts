@@ -261,7 +261,11 @@ export const datasetRouter = createTRPCRouter({
     })
     .input(z.object({ portalName: z.string(), datasetName: z.string() }))
     .output(
-      DatasetSchema.extend({ datasets: z.array(ResourceSchema).optional() })
+      DatasetSchema.extend({
+        resources: z.array(ResourceSchema).optional(),
+        Organization: OrganizationSchema,
+        groups: z.array(GroupSchema).optional(),
+      })
     )
     .query(async ({ ctx, input }) => {
       const portal = await ctx.prisma.portal.findFirst({
@@ -277,6 +281,8 @@ export const datasetRouter = createTRPCRouter({
         where: { portalId: portal.id, name: input.datasetName, private: false },
         include: {
           resources: { where: { private: false } },
+          Organization: true,
+          groups: true,
         },
       });
       if (!dataset) {
