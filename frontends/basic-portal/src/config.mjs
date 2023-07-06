@@ -1,5 +1,4 @@
 import defaultImage from './assets/images/default.png';
-
 const CONFIG = {
   name: 'T3-Dataportal - Basic portal',
 

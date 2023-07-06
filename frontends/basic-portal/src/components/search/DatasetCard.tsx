@@ -2,9 +2,12 @@ import type { Dataset } from '~/types';
 
 export default function DatasetCard({ dataset }: { dataset: Dataset }) {
   return (
-    <div className="dark:bg-slate-900 bg-light shadow rounded border border-gray-300 dark:border-slate-800 dark:hover:border-slate-600 p-4 hover:border-slate-600 cursor-pointer flex justify-between gap-x-2">
+    <a
+      href={`/orgs/${dataset.Organization.name}/datasets/${dataset.name}`}
+      className="dark:bg-slate-900 bg-light shadow rounded border border-gray-300 dark:border-slate-800 dark:hover:border-slate-600 p-4 hover:border-blue-600 cursor-pointer flex justify-between gap-x-2"
+    >
       <div>
-        <h2 className="text-lg font-semibold dark:text-white text-slate-900 ">{dataset.title}</h2>
+        <h2 className="text-lg font-semibold text-sky-600 ">{dataset.title}</h2>
         <div className="flex gap-x-2">
           <dl className="flex flex-col">
             <dt className="text-xs whitespace-nowrap flex gap-x-0.5 items-center">
@@ -21,6 +24,6 @@ export default function DatasetCard({ dataset }: { dataset: Dataset }) {
         </div>
         <p className="text-sm pt-2 font-light text-slate-700 dark:text-slate-400">{dataset.description}</p>
       </div>
-    </div>
+    </a>
   );
 }

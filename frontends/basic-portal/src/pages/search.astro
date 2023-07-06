@@ -11,11 +11,14 @@ const meta = {
   dontUseTitleTemplate: true,
 };
 
-const datasets: Dataset[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/datasets/search').json();
-const groups: Group[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/group').json();
-const organizations: Organization[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/organization').json();
+const portalName = import.meta.env.PUBLIC_PORTAL_NAME ? import.meta.env.PUBLIC_PORTAL_NAME : 'my-portal';
+const datasets: Dataset[] = await ky(`https://t3-dataportal.vercel.app/api/${portalName}/datasets/search`).json();
+const groups: Group[] = await ky(`https://t3-dataportal.vercel.app/api/${portalName}/group`).json();
+const organizations: Organization[] = await ky(
+  `https://t3-dataportal.vercel.app/api/${portalName}/organization`
+).json();
 ---
 
 <Layout {meta}>
-  <SearchPage client:load datasets={datasets} groups={groups} organizations={organizations} />
+  <SearchPage client:load portalName={portalName} datasets={datasets} groups={groups} organizations={organizations} />
 </Layout>

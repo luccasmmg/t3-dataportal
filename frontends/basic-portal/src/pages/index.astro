@@ -6,6 +6,7 @@ import Hero from '~/components/widgets/Hero.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import type { Dataset, Group, Organization } from '~/types';
 import ky from 'ky';
+import type { Portal } from '~/types';
 
 const meta = {
   title: SITE.title,
@@ -13,9 +14,13 @@ const meta = {
   dontUseTitleTemplate: true,
 };
 
-const datasets: Dataset[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/datasets/search').json();
-const groups: Group[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/group').json();
-const organizations: Organization[] = await ky('https://t3-dataportal.vercel.app/api/my-portal/organization').json();
+const portalName = import.meta.env.PUBLIC_PORTAL_NAME ? import.meta.env.PUBLIC_PORTAL_NAME : 'my-portal';
+const portalData: Portal = await ky(`https://t3-dataportal.vercel.app/api/portal/${portalName}`).json();
+const datasets: Dataset[] = await ky(`https://t3-dataportal.vercel.app/api/${portalName}/datasets/search`).json();
+const groups: Group[] = await ky(`https://t3-dataportal.vercel.app/api/${portalName}/group`).json();
+const organizations: Organization[] = await ky(
+  `https://t3-dataportal.vercel.app/api/${portalName}/organization`
+).json();
 ---
 
 <Layout {meta}>
@@ -23,11 +28,13 @@ const organizations: Organization[] = await ky('https://t3-dataportal.vercel.app
 
   <Hero callToAction={{ text: 'Search datasets', href: '/search', icon: 'tabler:download' }}>
     <Fragment slot="title">
-      Open datasets uploaded using the
-      <span class="text-accent dark:text-white highlight">T3-Dataportal</span> DMS
+      Welcome to the
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-500">"{portalData.title}"</span> powered
+      by the T3-DMS
     </Fragment>
 
     <Fragment slot="subtitle">
+      {portalData.description}
       <Stats
         items={[
           { name: 'Datasets', value: datasets.length },

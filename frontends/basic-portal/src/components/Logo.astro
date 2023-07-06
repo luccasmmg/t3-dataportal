@@ -1,6 +1,10 @@
 ---
+import ky from 'ky';
+import type { Portal } from '~/types';
+const portalName = import.meta.env.PUBLIC_PORTAL_NAME ? import.meta.env.PUBLIC_PORTAL_NAME : 'my-portal';
+const portalData: Portal = await ky(`https://t3-dataportal.vercel.app/api/portal/${portalName}`).json();
 ---
 
-<span class="self-center ml-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white">
-  🚀 T3-Dataportal</span
+<span class="self-center capitalize ml-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white">
+  🚀 {portalData.title}</span
 >

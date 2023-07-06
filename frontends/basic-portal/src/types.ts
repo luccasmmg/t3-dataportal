@@ -39,6 +39,12 @@ export interface MetaSEO {
   ogType?: string;
 }
 
+export interface Portal {
+  name: string;
+  title: string;
+  description: string;
+}
+
 export interface Dataset {
   id: string;
   name: string;
