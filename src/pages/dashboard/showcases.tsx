@@ -15,7 +15,7 @@ const showcases = [
     description:
       "A basic portal buitl with AstroJS, its main focus is sending as few JS as possible to the end user",
     image: "/images/showcases/basic_portal.png",
-    link: "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fluccasmmg%2Ft3-dataportal%2Ftree%2Fmain%2Ffrontends%2Fbasic-portal&env=PUBLIC_PORTAL_NAME&envDescription=Name%20of%20your%20data%20portal%20inside%20the%20backend%20&project-name=dataportal&repository-name=dataportal",
+    link: "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fluccasmmg%2Ft3-dataportal%2Ftree%2Fmain%2Ffrontends%2Fbasic-portal&env=PUBLIC_PORTAL_NAME&envDescription=Name%20of%20your%20data%20portal%2C%20should%20be%20the%20same%20as%20you%20setup%20in%20the%20creation%20form%20&redirect-url=https%3A%2F%2Ft3-dataportal.vercel.app%2Fdashboard",
     technology: "astrojs" as const,
   },
 ];
@@ -50,7 +50,14 @@ const ShowcasesDashboard: NextPage = () => {
           </p>
           <div className="grid max-w-7xl grid-cols-1 py-4 md:grid-cols-3 xl:grid-cols-4">
             {showcases.map((showcase) => (
-              <ShowcaseCard key={showcase.link} {...showcase} />
+              <ShowcaseCard
+                key={showcase.link}
+                {...showcase}
+                link={
+                  showcase.link +
+                  `&project-name=${portalData.name}-frontend&repository-name=${portalData.name}-frontend`
+                }
+              />
             ))}
           </div>
         </div>

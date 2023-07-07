@@ -24,7 +24,7 @@ export const CreatePortalForm: React.FC = () => {
         { sysAdminId: sessionData?.user.id },
         { ...data, groups: [], datasets: [], organizations: [] }
       );
-      await push("/dashboard");
+      await push("/dashboard/showcases");
     },
     onError: (error) => setErrorMessage(error.message),
   });
