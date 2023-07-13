@@ -33,7 +33,7 @@ const {
           />
         )}
         {subtitle && (
-          <p class="max-w-3xl mx-auto text-center text-xl text-muted dark:text-slate-400" set:html={subtitle} />
+          <p class="max-w-3xl mx-auto text-center text-xl text-muted dark:text-gray-400" set:html={subtitle} />
         )}
       </div>
     )
@@ -41,11 +41,11 @@ const {
   <div class="grid grid-cols-2 row-gap-8 md:grid-cols-3">
     {
       items.map(({ name, value }) => (
-        <div key={value} class="text-center md:border-r md:last:border-none dark:md:border-slate-500 mb-12 md:mb-0">
+        <div key={value} class="text-center md:border-r md:last:border-none dark:md:border-gray-500 mb-12 md:mb-0">
           <div class="text-[2.6rem] font-bold lg:text-5xl xl:text-6xl text-sky-600 dark:text-sky-600 font-heading">
             {value}
           </div>
-          <p class="text-sm font-medium tracking-widest text-gray-800 dark:text-slate-400 uppercase lg:text-base">
+          <p class="text-sm font-medium tracking-widest text-gray-800 dark:text-gray-400 uppercase lg:text-base">
             {name}
           </p>
         </div>

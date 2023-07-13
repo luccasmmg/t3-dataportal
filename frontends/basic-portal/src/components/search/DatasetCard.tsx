@@ -4,7 +4,7 @@ export default function DatasetCard({ dataset }: { dataset: Dataset }) {
   return (
     <a
       href={`/orgs/${dataset.Organization.name}/datasets/${dataset.name}`}
-      className="dark:bg-slate-900 bg-light shadow rounded border border-gray-300 dark:border-slate-800 dark:hover:border-slate-600 p-4 hover:border-blue-600 cursor-pointer flex justify-between gap-x-2"
+      className="dark:bg-gray-900 bg-light shadow rounded border border-gray-300 dark:border-gray-800 dark:hover:border-gray-600 p-4 hover:border-blue-600 cursor-pointer flex justify-between gap-x-2"
     >
       <div>
         <h2 className="text-lg font-semibold text-sky-600 ">{dataset.title}</h2>
@@ -22,7 +22,7 @@ export default function DatasetCard({ dataset }: { dataset: Dataset }) {
             </dt>
           </dl>
         </div>
-        <p className="text-sm pt-2 font-light text-slate-700 dark:text-slate-400">{dataset.description}</p>
+        <p className="text-sm pt-2 font-light text-gray-700 dark:text-gray-400">{dataset.description}</p>
       </div>
     </a>
   );

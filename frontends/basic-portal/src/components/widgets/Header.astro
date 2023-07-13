@@ -36,7 +36,7 @@ const { links = [], actions = [], isSticky = false, showToggleTheme = false, pos
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky },
-    'top-0 z-40 flex-none mx-auto bg-light dark:bg-dark w-full transition-all ease-in duration-100 border-b border-slate-200 dark:border-slate-800',
+    'top-0 z-40 flex-none mx-auto bg-light dark:bg-dark w-full transition-all ease-in duration-100 border-b border-gray-200 dark:border-gray-800',
   ]}
   id="header"
 >
@@ -52,7 +52,7 @@ const { links = [], actions = [], isSticky = false, showToggleTheme = false, pos
     </div>
     <div class:list={[{ 'ml-auto': position === 'left' }, 'md:self-center flex items-center md:mb-0']}>
       <nav
-        class="items-center ml-auto w-full md:w-auto hidden md:flex dark:text-slate-200 h-[calc(100vh-72px)] md:h-auto overflow-y-auto md:overflow-visible md:mx-5"
+        class="items-center ml-auto w-full md:w-auto hidden md:flex dark:text-gray-200 h-[calc(100vh-72px)] md:h-auto overflow-y-auto md:overflow-visible md:mx-5"
         aria-label="Main navigation"
       >
         <ul class="flex flex-col pt-8 md:pt-0 md:flex-row md:self-center w-full md:w-auto text-xl md:text-base">

@@ -31,7 +31,7 @@ const {
 } = Astro.props;
 ---
 
-<section class:list={[{ 'pt-0 md:pt-0': isAfterContent }, 'bg-blue-50 dark:bg-slate-800 py-16 md:py-20']}>
+<section class:list={[{ 'pt-0 md:pt-0': isAfterContent }, 'bg-blue-50 dark:bg-gray-800 py-16 md:py-20']}>
   <div class="max-w-xl sm:mx-auto lg:max-w-2xl">
     {
       (title || subtitle || highlight) && (
@@ -50,7 +50,7 @@ const {
           )}
 
           {subtitle && (
-            <p class="max-w-3xl mx-auto sm:text-center text-xl text-muted dark:text-slate-400" set:html={subtitle} />
+            <p class="max-w-3xl mx-auto sm:text-center text-xl text-muted dark:text-gray-400" set:html={subtitle} />
           )}
         </div>
       )
@@ -59,7 +59,7 @@ const {
   <div class="mx-auto max-w-7xl p-4 md:px-8">
     <div class={`md:flex ${isReversed ? 'md:flex-row-reverse' : ''} md:gap-16`}>
       <div class="md:basis-1/2 self-center">
-        {content && <div class="mb-12 text-lg dark:text-slate-400" set:html={content} />}
+        {content && <div class="mb-12 text-lg dark:text-gray-400" set:html={content} />}
 
         {
           items && (
@@ -73,7 +73,7 @@ const {
                   </div>
                   <div class="ml-4">
                     {title2 && <h3 class="text-lg font-medium leading-6 dark:text-white">{title2}</h3>}
-                    {description && <p class="mt-2 text-muted dark:text-slate-400" set:html={description} />}
+                    {description && <p class="mt-2 text-muted dark:text-gray-400" set:html={description} />}
                   </div>
                 </div>
               ))}

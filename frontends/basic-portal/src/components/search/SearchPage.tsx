@@ -70,12 +70,12 @@ function SearchPageInner({
 
   return (
     <div className="py-8 grid grid-cols-1 lg:grid-cols-7 h-[40rem] gap-6 max-w-7xl mx-auto px-3 md:px-4">
-      <div className="col-span-full lg:col-span-2 py-4 flex flex-col gap-y-2 border-r pr-6 border-slate-300 dark:border-slate-900">
+      <div className="col-span-full lg:col-span-2 py-4 flex flex-col gap-y-2 border-r pr-6 border-gray-300 dark:border-gray-900">
         <div>
           <h1 className="text-4xl text-sky-600 font-bold">Search datasets</h1>
           <div className="flex flex-col gap-y-2 py-6">
             <input
-              className="dark:ring-slate-800 ring-gray-300 w-full shadow rounded p-2 dark:bg-slate-900 ring-1 border-0 ring-inset text-sm placeholder:text-sm placeholder:text-gray-900 placeholder:dark:text-gray-300"
+              className="dark:ring-gray-800 ring-gray-300 w-full shadow rounded p-2 dark:bg-gray-900 ring-1 border-0 ring-inset text-sm placeholder:text-sm placeholder:text-gray-900 placeholder:dark:text-gray-300"
               {...register('queryString')}
               type="text"
               placeholder="Search datasets"
