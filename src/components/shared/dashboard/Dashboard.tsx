@@ -11,6 +11,7 @@ import {
   DocumentMagnifyingGlassIcon,
   HomeIcon,
   RectangleGroupIcon,
+  UserGroupIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { classNames } from "@utils/classnames";
@@ -39,6 +40,12 @@ export const Dashboard: React.FC<{
       name: "Groups",
       href: "/dashboard/groups",
       icon: RectangleGroupIcon,
+    },
+    {
+      id: "members",
+      name: "Members",
+      href: "/dashboard/members",
+      icon: UserGroupIcon,
     },
     {
       id: "docs",
